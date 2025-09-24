@@ -107,12 +107,12 @@ msgstr "501-1000"
 msgid "51-200"
 msgstr "51-200"
 
-#. Paragraph text in the Frappe CRM Workspace
+#. Paragraph text in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "<b>META</b>"
 msgstr "<b>元数据</b>"
 
-#. Paragraph text in the Frappe CRM Workspace
+#. Paragraph text in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "<b>SHORTCUTS</b>"
 msgstr "<b>快捷方式</b>"
@@ -122,7 +122,7 @@ msgstr "<b>快捷方式</b>"
 msgid "<p>Dear {{ lead_name }},</p>\\n\\n<p>This is a reminder for the payment of {{ grand_total }}.</p>\\n\\n<p>Thanks,</p>\\n<p>Frappé</p>"
 msgstr "msgstr \"<p>尊敬的{{ lead_name }}：</p>\\n\\n<p>特此提醒您尚有{{ grand_total }}款项待支付。</p>\\n\\n<p>此致</p>\\n<p>Frappé团队</p>\""
 
-#. Header text in the Frappe CRM Workspace
+#. Header text in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "<span class=\"h5\"><b>PORTAL</b></span>"
 msgstr "<span class=\"h5\"><b>门户</b></span>"
@@ -519,7 +519,7 @@ msgstr "负责人"
 msgid "Assignment"
 msgstr "分配"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Assignment Rule"
 msgstr "分配规则"
@@ -781,7 +781,7 @@ msgstr "CRM通知"
 msgid "CRM Organization"
 msgstr "CRM组织"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "CRM Portal Page"
 msgstr "CRM门户页面"
@@ -1083,7 +1083,7 @@ msgstr ""
 msgid "Communication Status"
 msgstr "沟通状态"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Communication Statuses"
 msgstr "沟通状态列表"
@@ -1199,7 +1199,7 @@ msgstr ""
 
 #. Label of the contacts_tab (Tab Break) field in DocType 'CRM Deal'
 #. Label of the contacts (Table) field in DocType 'CRM Deal'
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/doctype/crm_deal/crm_deal.json
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/Contact.vue:234 frontend/src/pages/MobileContact.vue:212
@@ -1438,7 +1438,7 @@ msgstr "商机负责人"
 msgid "Deal Status"
 msgstr "商机状态"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Deal Statuses"
 msgstr "商机状态列表"
@@ -1462,7 +1462,7 @@ msgstr "商机负责人"
 msgid "Deal value"
 msgstr ""
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/Deal.vue:479 frontend/src/pages/MobileContact.vue:288
 #: frontend/src/pages/MobileDeal.vue:384
@@ -2363,11 +2363,11 @@ msgstr "表单脚本更新成功"
 
 #. Name of a Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
-msgid "Frappe CRM"
-msgstr "Frappe CRM"
+msgid "NexTash"
+msgstr "NexTash"
 
 #: frontend/src/components/Layouts/AppSidebar.vue:602
-msgid "Frappe CRM mobile"
+msgid "NexTash mobile"
 msgstr ""
 
 #. Option for the 'Weekly Off' (Select) field in DocType 'CRM Holiday List'
@@ -2651,7 +2651,7 @@ msgstr "呼入"
 msgid "Incoming call..."
 msgstr "来电中..."
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Industries"
 msgstr "行业"
@@ -2956,12 +2956,12 @@ msgstr "线索负责人"
 msgid "Lead Owner cannot be same as the Lead Email Address"
 msgstr "线索负责人不能与线索邮箱地址相同"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Lead Sources"
 msgstr "线索来源"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Lead Statuses"
 msgstr "线索状态"
@@ -2974,7 +2974,7 @@ msgstr ""
 msgid "Lead to deal conversion pipeline"
 msgstr ""
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/InvalidPage.vue:9 frontend/src/pages/Lead.vue:339
 #: frontend/src/pages/MobileLead.vue:291
@@ -3780,7 +3780,7 @@ msgstr "组织名称"
 msgid "Organization logo"
 msgstr "组织徽标"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/MobileOrganization.vue:205
 #: frontend/src/pages/Organization.vue:233
@@ -4320,7 +4320,7 @@ msgstr "行"
 #. Label of the sla (Link) field in DocType 'CRM Deal'
 #. Label of the sla_tab (Tab Break) field in DocType 'CRM Lead'
 #. Label of the sla (Link) field in DocType 'CRM Lead'
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/doctype/crm_deal/crm_deal.json
 #: crm/fcrm/doctype/crm_lead/crm_lead.json
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
@@ -4900,7 +4900,7 @@ msgstr ""
 msgid "Template updated successfully"
 msgstr ""
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Territories"
 msgstr "区域"

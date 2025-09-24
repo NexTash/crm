@@ -107,12 +107,12 @@ msgstr "501-1000"
 msgid "51-200"
 msgstr "51-200"
 
-#. Paragraph text in the Frappe CRM Workspace
+#. Paragraph text in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "<b>META</b>"
 msgstr "<b>META</b>"
 
-#. Paragraph text in the Frappe CRM Workspace
+#. Paragraph text in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "<b>SHORTCUTS</b>"
 msgstr "<b>GENVÄGAR</b>"
@@ -122,7 +122,7 @@ msgstr "<b>GENVÄGAR</b>"
 msgid "<p>Dear {{ lead_name }},</p>\\n\\n<p>This is a reminder for the payment of {{ grand_total }}.</p>\\n\\n<p>Thanks,</p>\\n<p>Frappé</p>"
 msgstr "<p>Bästa {{ lead_name }},</p>\\n\\n<p>Detta är en påminnelse om betalningen av {{ grand_total }}.</p>\\n\\n<p>Tack,</p>\\n<p>.</p>"
 
-#. Header text in the Frappe CRM Workspace
+#. Header text in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "<span class=\"h5\"><b>PORTAL</b></span>"
 msgstr "<span class=\"h5\"><b>PORTAL</b></span>"
@@ -519,7 +519,7 @@ msgstr "Tilldelad Till"
 msgid "Assignment"
 msgstr "Tilldelning"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Assignment Rule"
 msgstr "Tilldelning Regel"
@@ -781,7 +781,7 @@ msgstr "Aviseringar"
 msgid "CRM Organization"
 msgstr "Organisation"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "CRM Portal Page"
 msgstr "Portal"
@@ -1083,7 +1083,7 @@ msgstr "Vanliga anledningar till att affärer går förlorade"
 msgid "Communication Status"
 msgstr "Konversation Status"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Communication Statuses"
 msgstr "Konversation Status"
@@ -1199,7 +1199,7 @@ msgstr "Kontakt uppdaterad"
 
 #. Label of the contacts_tab (Tab Break) field in DocType 'CRM Deal'
 #. Label of the contacts (Table) field in DocType 'CRM Deal'
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/doctype/crm_deal/crm_deal.json
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/Contact.vue:234 frontend/src/pages/MobileContact.vue:212
@@ -1438,7 +1438,7 @@ msgstr "Ansvarig"
 msgid "Deal Status"
 msgstr "Affär Status"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Deal Statuses"
 msgstr "Affär Status"
@@ -1462,7 +1462,7 @@ msgstr "Affär Ansvarig"
 msgid "Deal value"
 msgstr "Affärsvärde"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/Deal.vue:479 frontend/src/pages/MobileContact.vue:288
 #: frontend/src/pages/MobileDeal.vue:384
@@ -2363,11 +2363,11 @@ msgstr "Formulär Skript uppdaterad"
 
 #. Name of a Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
-msgid "Frappe CRM"
+msgid "NexTash"
 msgstr "Säljstöd"
 
 #: frontend/src/components/Layouts/AppSidebar.vue:602
-msgid "Frappe CRM mobile"
+msgid "NexTash mobile"
 msgstr "Mobil App"
 
 #. Option for the 'Weekly Off' (Select) field in DocType 'CRM Holiday List'
@@ -2651,7 +2651,7 @@ msgstr "Inkommande"
 msgid "Incoming call..."
 msgstr "Inkommande samtal..."
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Industries"
 msgstr "Branscher"
@@ -2956,12 +2956,12 @@ msgstr "Potentiell Kund Ansvarig"
 msgid "Lead Owner cannot be same as the Lead Email Address"
 msgstr "Potentiell Kund Ansvarig kan inte vara samma som Potentiell Kund E-post Adress"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Lead Sources"
 msgstr "Potentiell Kund Källor"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Lead Statuses"
 msgstr "Potentiell Kund Status"
@@ -2974,7 +2974,7 @@ msgstr "Potentiell Kund Generering Kanal Analys"
 msgid "Lead to deal conversion pipeline"
 msgstr "Potentiell Kund till Affär Konvertering Pipeline"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/InvalidPage.vue:9 frontend/src/pages/Lead.vue:339
 #: frontend/src/pages/MobileLead.vue:291
@@ -3780,7 +3780,7 @@ msgstr "Organisation Namn"
 msgid "Organization logo"
 msgstr "Organisation Logotyp"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/MobileOrganization.vue:205
 #: frontend/src/pages/Organization.vue:233
@@ -4320,7 +4320,7 @@ msgstr "Rader"
 #. Label of the sla (Link) field in DocType 'CRM Deal'
 #. Label of the sla_tab (Tab Break) field in DocType 'CRM Lead'
 #. Label of the sla (Link) field in DocType 'CRM Lead'
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/doctype/crm_deal/crm_deal.json
 #: crm/fcrm/doctype/crm_lead/crm_lead.json
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
@@ -4906,7 +4906,7 @@ msgstr "Mall namn ändrad"
 msgid "Template updated successfully"
 msgstr "Mall uppdaterad"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Territories"
 msgstr "Distrikt"

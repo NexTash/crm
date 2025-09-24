@@ -107,12 +107,12 @@ msgstr "501-1000"
 msgid "51-200"
 msgstr "51-200"
 
-#. Paragraph text in the Frappe CRM Workspace
+#. Paragraph text in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "<b>META</b>"
 msgstr "<b>МЕТА</b>"
 
-#. Paragraph text in the Frappe CRM Workspace
+#. Paragraph text in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "<b>SHORTCUTS</b>"
 msgstr "<b>ПРЕЧИЦЕ</b>"
@@ -122,7 +122,7 @@ msgstr "<b>ПРЕЧИЦЕ</b>"
 msgid "<p>Dear {{ lead_name }},</p>\\n\\n<p>This is a reminder for the payment of {{ grand_total }}.</p>\\n\\n<p>Thanks,</p>\\n<p>Frappé</p>"
 msgstr "<p>Здраво {{ lead_name }},</p>\\n\\n<p>Ово је подсетник за плаћање {{ grand_total }}.</p>\\n\\n<p>Хвала,</p>\\n<p>Frappé</p>"
 
-#. Header text in the Frappe CRM Workspace
+#. Header text in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "<span class=\"h5\"><b>PORTAL</b></span>"
 msgstr "<span class=\"h5\"><b>ПОРТАЛ</b></span>"
@@ -519,7 +519,7 @@ msgstr "Додељено"
 msgid "Assignment"
 msgstr "Задатак"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Assignment Rule"
 msgstr "Правило доделе задатка"
@@ -781,7 +781,7 @@ msgstr "CRM обавештење"
 msgid "CRM Organization"
 msgstr "CRM организација"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "CRM Portal Page"
 msgstr "CRM страница портала"
@@ -1083,7 +1083,7 @@ msgstr "Уобичајени разлози за губитак пословни
 msgid "Communication Status"
 msgstr "Статус комуникације"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Communication Statuses"
 msgstr "Статуси комуникације"
@@ -1199,7 +1199,7 @@ msgstr "Контакт је ажуриран"
 
 #. Label of the contacts_tab (Tab Break) field in DocType 'CRM Deal'
 #. Label of the contacts (Table) field in DocType 'CRM Deal'
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/doctype/crm_deal/crm_deal.json
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/Contact.vue:234 frontend/src/pages/MobileContact.vue:212
@@ -1438,7 +1438,7 @@ msgstr "Власник пословне прилике"
 msgid "Deal Status"
 msgstr "Статус пословне прилике"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Deal Statuses"
 msgstr "Статуси пословне прилике"
@@ -1462,7 +1462,7 @@ msgstr "Власник пословне прилике"
 msgid "Deal value"
 msgstr "Вредност пословне прилике"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/Deal.vue:479 frontend/src/pages/MobileContact.vue:288
 #: frontend/src/pages/MobileDeal.vue:384
@@ -2363,12 +2363,12 @@ msgstr "Скрипта обрасца је успешно ажурирана"
 
 #. Name of a Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
-msgid "Frappe CRM"
-msgstr "Frappe CRM"
+msgid "NexTash"
+msgstr "NexTash"
 
 #: frontend/src/components/Layouts/AppSidebar.vue:602
-msgid "Frappe CRM mobile"
-msgstr "Frappe CRM мобилна апликација"
+msgid "NexTash mobile"
+msgstr "NexTash мобилна апликација"
 
 #. Option for the 'Weekly Off' (Select) field in DocType 'CRM Holiday List'
 #. Option for the 'Workday' (Select) field in DocType 'CRM Service Day'
@@ -2651,7 +2651,7 @@ msgstr "Долазни"
 msgid "Incoming call..."
 msgstr "Долазни позив..."
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Industries"
 msgstr "Индустрије"
@@ -2956,12 +2956,12 @@ msgstr "Власник потенцијалног клијента"
 msgid "Lead Owner cannot be same as the Lead Email Address"
 msgstr "Власник потенцијалног клијента не може бити исти као имејл адреса потенцијалног клијента"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Lead Sources"
 msgstr "Извори потенцијалног клијента"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Lead Statuses"
 msgstr "Статуси потенцијалног клијента"
@@ -2974,7 +2974,7 @@ msgstr "Анализа канала за генерисање потенција
 msgid "Lead to deal conversion pipeline"
 msgstr "Ток пребацивања потенцијалних клијената у пословне прилике"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/InvalidPage.vue:9 frontend/src/pages/Lead.vue:339
 #: frontend/src/pages/MobileLead.vue:291
@@ -3780,7 +3780,7 @@ msgstr "Назив организације"
 msgid "Organization logo"
 msgstr "Лого организације"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/MobileOrganization.vue:205
 #: frontend/src/pages/Organization.vue:233
@@ -4320,7 +4320,7 @@ msgstr "Редови"
 #. Label of the sla (Link) field in DocType 'CRM Deal'
 #. Label of the sla_tab (Tab Break) field in DocType 'CRM Lead'
 #. Label of the sla (Link) field in DocType 'CRM Lead'
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/doctype/crm_deal/crm_deal.json
 #: crm/fcrm/doctype/crm_lead/crm_lead.json
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
@@ -4900,7 +4900,7 @@ msgstr "Шаблон је успешно преименован"
 msgid "Template updated successfully"
 msgstr "Шаблон је успешно ажуриран"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Territories"
 msgstr "Територије"

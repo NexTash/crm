@@ -107,12 +107,12 @@ msgstr "crwdns152679:0crwdne152679:0"
 msgid "51-200"
 msgstr "crwdns152681:0crwdne152681:0"
 
-#. Paragraph text in the Frappe CRM Workspace
+#. Paragraph text in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "<b>META</b>"
 msgstr "crwdns152683:0crwdne152683:0"
 
-#. Paragraph text in the Frappe CRM Workspace
+#. Paragraph text in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "<b>SHORTCUTS</b>"
 msgstr "crwdns152685:0crwdne152685:0"
@@ -122,7 +122,7 @@ msgstr "crwdns152685:0crwdne152685:0"
 msgid "<p>Dear {{ lead_name }},</p>\\n\\n<p>This is a reminder for the payment of {{ grand_total }}.</p>\\n\\n<p>Thanks,</p>\\n<p>Frappé</p>"
 msgstr "crwdns152687:0{{ lead_name }}crwdnd152687:0{{ grand_total }}crwdne152687:0"
 
-#. Header text in the Frappe CRM Workspace
+#. Header text in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "<span class=\"h5\"><b>PORTAL</b></span>"
 msgstr "crwdns152689:0crwdne152689:0"
@@ -519,7 +519,7 @@ msgstr "crwdns152791:0crwdne152791:0"
 msgid "Assignment"
 msgstr "crwdns152793:0crwdne152793:0"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Assignment Rule"
 msgstr "crwdns152795:0crwdne152795:0"
@@ -781,7 +781,7 @@ msgstr "crwdns152863:0crwdne152863:0"
 msgid "CRM Organization"
 msgstr "crwdns152865:0crwdne152865:0"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "CRM Portal Page"
 msgstr "crwdns152867:0crwdne152867:0"
@@ -1083,7 +1083,7 @@ msgstr "crwdns156200:0crwdne156200:0"
 msgid "Communication Status"
 msgstr "crwdns152959:0crwdne152959:0"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Communication Statuses"
 msgstr "crwdns152961:0crwdne152961:0"
@@ -1199,7 +1199,7 @@ msgstr "crwdns156218:0crwdne156218:0"
 
 #. Label of the contacts_tab (Tab Break) field in DocType 'CRM Deal'
 #. Label of the contacts (Table) field in DocType 'CRM Deal'
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/doctype/crm_deal/crm_deal.json
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/Contact.vue:234 frontend/src/pages/MobileContact.vue:212
@@ -1438,7 +1438,7 @@ msgstr "crwdns153037:0crwdne153037:0"
 msgid "Deal Status"
 msgstr "crwdns153039:0crwdne153039:0"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Deal Statuses"
 msgstr "crwdns153041:0crwdne153041:0"
@@ -1462,7 +1462,7 @@ msgstr "crwdns153043:0crwdne153043:0"
 msgid "Deal value"
 msgstr "crwdns156260:0crwdne156260:0"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/Deal.vue:479 frontend/src/pages/MobileContact.vue:288
 #: frontend/src/pages/MobileDeal.vue:384
@@ -2363,11 +2363,11 @@ msgstr "crwdns153279:0crwdne153279:0"
 
 #. Name of a Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
-msgid "Frappe CRM"
+msgid "NexTash"
 msgstr "crwdns153281:0crwdne153281:0"
 
 #: frontend/src/components/Layouts/AppSidebar.vue:602
-msgid "Frappe CRM mobile"
+msgid "NexTash mobile"
 msgstr "crwdns156384:0crwdne156384:0"
 
 #. Option for the 'Weekly Off' (Select) field in DocType 'CRM Holiday List'
@@ -2651,7 +2651,7 @@ msgstr "crwdns153347:0crwdne153347:0"
 msgid "Incoming call..."
 msgstr "crwdns153349:0crwdne153349:0"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Industries"
 msgstr "crwdns153351:0crwdne153351:0"
@@ -2956,12 +2956,12 @@ msgstr "crwdns153433:0crwdne153433:0"
 msgid "Lead Owner cannot be same as the Lead Email Address"
 msgstr "crwdns153435:0crwdne153435:0"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Lead Sources"
 msgstr "crwdns153437:0crwdne153437:0"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Lead Statuses"
 msgstr "crwdns153439:0crwdne153439:0"
@@ -2974,7 +2974,7 @@ msgstr "crwdns156432:0crwdne156432:0"
 msgid "Lead to deal conversion pipeline"
 msgstr "crwdns156434:0crwdne156434:0"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/InvalidPage.vue:9 frontend/src/pages/Lead.vue:339
 #: frontend/src/pages/MobileLead.vue:291
@@ -3780,7 +3780,7 @@ msgstr "crwdns153675:0crwdne153675:0"
 msgid "Organization logo"
 msgstr "crwdns153677:0crwdne153677:0"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 #: frontend/src/pages/MobileOrganization.vue:205
 #: frontend/src/pages/Organization.vue:233
@@ -4320,7 +4320,7 @@ msgstr "crwdns153833:0crwdne153833:0"
 #. Label of the sla (Link) field in DocType 'CRM Deal'
 #. Label of the sla_tab (Tab Break) field in DocType 'CRM Lead'
 #. Label of the sla (Link) field in DocType 'CRM Lead'
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/doctype/crm_deal/crm_deal.json
 #: crm/fcrm/doctype/crm_lead/crm_lead.json
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
@@ -4900,7 +4900,7 @@ msgstr "crwdns156642:0crwdne156642:0"
 msgid "Template updated successfully"
 msgstr "crwdns156644:0crwdne156644:0"
 
-#. Label of a shortcut in the Frappe CRM Workspace
+#. Label of a shortcut in the NexTash Workspace
 #: crm/fcrm/workspace/frappe_crm/frappe_crm.json
 msgid "Territories"
 msgstr "crwdns153959:0crwdne153959:0"

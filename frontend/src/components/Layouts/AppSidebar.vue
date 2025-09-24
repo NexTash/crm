@@ -126,11 +126,12 @@
       v-model="showHelpModal"
       v-model:articles="articles"
       :logo="CRMLogo"
+      title="NXT CRM"
       :afterSkip="(step) => capture('onboarding_step_skipped_' + step)"
       :afterSkipAll="() => capture('onboarding_steps_skipped')"
       :afterReset="(step) => capture('onboarding_step_reset_' + step)"
       :afterResetAll="() => capture('onboarding_steps_reset')"
-      docsLink="https://docs.frappe.io/crm"
+      docsLink="https://docs.nextash.cloud/crm"
     />
     <IntermediateStepModal
       v-model="showIntermediateModal"
@@ -599,7 +600,7 @@ const articles = ref([
     ],
   },
   {
-    title: __('Frappe CRM mobile'),
+    title: __('NXt CRM mobile'),
     opened: false,
     subArticles: [
       { name: 'mobile-app-installation', title: __('Mobile app installation') },
