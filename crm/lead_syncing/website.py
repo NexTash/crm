@@ -3,7 +3,11 @@ from frappe import _
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
-def capture_website_lead(name: str, phone: str, email: str) -> dict[str, str]:
+def capture_website_lead(
+	name: str,
+	phone: str,
+	email: str,
+) -> dict[str, str]:
 	name = (name or "").strip()
 	phone = (phone or "").strip()
 	email = (email or "").strip()
@@ -16,17 +20,17 @@ def capture_website_lead(name: str, phone: str, email: str) -> dict[str, str]:
 			ignore_permissions=True
 		)
 
-	lead = frappe.get_doc(
-		{
-			"doctype": "CRM Lead",
-			"first_name": name,
-			"email": email,
-			"mobile_no": phone,
-			"phone": phone,
-			"source": "Website",
-			"status": "New",
-		}
-	).insert(ignore_permissions=True)
+	lead_data = {
+		"doctype": "CRM Lead",
+		"first_name": name,
+		"email": email,
+		"mobile_no": phone,
+		"phone": phone,
+		"source": "Website",
+		"status": "New Enquiry" if frappe.db.exists("CRM Lead Status", "New Enquiry") else "New",
+	}
+
+	lead = frappe.get_doc(lead_data).insert(ignore_permissions=True)
 
 	return {
 		"name": lead.name,
