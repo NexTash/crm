@@ -1,0 +1,222 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<style>
+	.website-lead-poc {
+		min-height: 100vh;
+		padding: 3rem 1rem;
+		background:
+			radial-gradient(circle at top, rgba(11, 110, 79, 0.12), transparent 34%),
+			linear-gradient(180deg, #f5fbf8 0%, #ffffff 100%);
+	}
+
+	.website-lead-poc__card {
+		max-width: 34rem;
+		margin: 0 auto;
+		padding: 2rem;
+		border: 1px solid #d7e6de;
+		border-radius: 1.25rem;
+		background: #ffffff;
+		box-shadow: 0 24px 60px rgba(16, 24, 40, 0.08);
+	}
+
+	.website-lead-poc__brand {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		margin-bottom: 1.25rem;
+	}
+
+	.website-lead-poc__logo {
+		width: min(13rem, 45vw);
+		height: auto;
+		margin-bottom: 1rem;
+	}
+
+	.website-lead-poc__eyebrow {
+		display: inline-block;
+		margin-bottom: 0.75rem;
+		padding: 0.35rem 0.7rem;
+		border-radius: 999px;
+		background: #e7f4ee;
+		color: #0b6e4f;
+		font-size: 0.85rem;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	.website-lead-poc h1 {
+		margin-bottom: 0.75rem;
+		color: #123524;
+		font-size: clamp(2rem, 5vw, 2.75rem);
+		line-height: 1.05;
+	}
+
+	.website-lead-poc p {
+		margin-bottom: 1.5rem;
+		color: #496257;
+	}
+
+	.website-lead-poc__field {
+		margin-bottom: 1rem;
+	}
+
+	.website-lead-poc__label {
+		display: block;
+		margin-bottom: 0.45rem;
+		color: #123524;
+		font-weight: 600;
+	}
+
+	.website-lead-poc__input {
+		width: 100%;
+		padding: 0.9rem 1rem;
+		border: 1px solid #c7d8cf;
+		border-radius: 0.9rem;
+		background: #fbfdfc;
+		font-size: 1rem;
+	}
+
+	.website-lead-poc__input:focus {
+		outline: 2px solid #98d5bb;
+		border-color: #0b6e4f;
+	}
+
+	.website-lead-poc__button {
+		width: 100%;
+		padding: 0.95rem 1rem;
+		border: 0;
+		border-radius: 0.9rem;
+		background: linear-gradient(135deg, #0b6e4f 0%, #198754 100%);
+		color: #ffffff;
+		font-size: 1rem;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.website-lead-poc__button[disabled] {
+		opacity: 0.7;
+		cursor: wait;
+	}
+
+	.website-lead-poc__message {
+		display: none;
+		margin-top: 1rem;
+		padding: 0.9rem 1rem;
+		border-radius: 0.9rem;
+		font-weight: 600;
+	}
+
+	.website-lead-poc__message.is-visible {
+		display: block;
+	}
+
+	.website-lead-poc__message.is-success {
+		background: #e7f4ee;
+		color: #0b6e4f;
+	}
+
+	.website-lead-poc__message.is-error {
+		background: #fce8e6;
+		color: #b42318;
+	}
+</style>
+
+	<section class="website-lead-poc">
+	<div class="website-lead-poc__card">
+		<div class="website-lead-poc__brand">
+			<img
+				class="website-lead-poc__logo"
+				src="/assets/crm/images/logo.png"
+				alt="Hajvery University logo"
+			>
+			<h1>Hajvery University</h1>
+		</div>
+		<p class="website-lead-poc__eyebrow">Addmission Form</p>
+		<form id="website-lead-form">
+
+			<div class="website-lead-poc__field">
+				<label class="website-lead-poc__label" for="lead-name">Name</label>
+				<input class="website-lead-poc__input" id="lead-name" name="name" type="text" required>
+			</div>
+
+			<div class="website-lead-poc__field">
+				<label class="website-lead-poc__label" for="lead-phone">Phone</label>
+				<input class="website-lead-poc__input" id="lead-phone" name="phone" type="tel" required>
+			</div>
+
+			<div class="website-lead-poc__field">
+				<label class="website-lead-poc__label" for="lead-email">Email</label>
+				<input class="website-lead-poc__input" id="lead-email" name="email" type="email" required>
+			</div>
+
+			<button class="website-lead-poc__button" type="submit">Submit Lead</button>
+			<div id="website-lead-message" class="website-lead-poc__message" aria-live="polite"></div>
+		</form>
+	</div>
+</section>
+
+<script>
+	const form = document.getElementById("website-lead-form");
+	const messageBox = document.getElementById("website-lead-message");
+	const submitButton = form.querySelector("button[type='submit']");
+
+	function setMessage(text, state) {
+		messageBox.textContent = text;
+		messageBox.className = "website-lead-poc__message is-visible";
+		messageBox.classList.add(state === "success" ? "is-success" : "is-error");
+	}
+
+	function extractErrorMessage(error) {
+		if (!error) {
+			return "Unable to capture lead right now.";
+		}
+
+		if (typeof error === "string") {
+			return error;
+		}
+
+		if (error._error_message) {
+			return error._error_message;
+		}
+
+		if (error.message) {
+			return error.message;
+		}
+
+		if (error.exc_type === "CSRFTokenError") {
+			return "Your session expired. Please refresh the page and try again.";
+		}
+
+		return "Unable to capture lead right now.";
+	}
+
+	form.addEventListener("submit", (event) => {
+		event.preventDefault();
+		submitButton.disabled = true;
+		messageBox.className = "website-lead-poc__message";
+		messageBox.textContent = "";
+
+		frappe.call({
+			method: "crm.lead_syncing.website.capture_website_lead",
+			args: {
+				name: form.name.value,
+				phone: form.phone.value,
+				email: form.email.value,
+			},
+			callback: (response) => {
+				setMessage(response.message.message || "Lead captured successfully.", "success");
+				form.reset();
+			},
+			error: (error) => {
+				setMessage(extractErrorMessage(error), "error");
+			},
+			always: () => {
+				submitButton.disabled = false;
+			},
+		});
+	});
+</script>
+{% endblock %}
