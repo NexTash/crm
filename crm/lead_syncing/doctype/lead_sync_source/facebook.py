@@ -48,6 +48,9 @@ class FacebookSyncSource:
 		crm_lead_data["facebook_lead_id"] = lead["id"]
 		crm_lead_data["facebook_form_id"] = self.form_id
 
+		if crm_lead_data.get("email") == "test@meta.com":
+			crm_lead_data["first_name"] = "Test Lead"
+
 		try:
 			self.validate_duplicate_lead(crm_lead_data, question_to_field_map)
 			return frappe.get_doc(
