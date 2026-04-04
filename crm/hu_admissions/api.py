@@ -5,9 +5,30 @@ from frappe import _
 @frappe.whitelist()
 def create_student_from_lead(lead_name: str) -> dict[str, str]:
 	lead = frappe.get_doc("CRM Lead", lead_name)
+	student = ensure_student_from_lead(lead)
+
+	return {"name": student.name, "message": _("Student record created successfully.")}
+
+
+def auto_create_student_on_approved(doc, _event=None) -> None:
+	if doc.doctype != "CRM Lead":
+		return
+
+	if doc.status != "Approved":
+		return
+
+	if hasattr(doc, "hu_student") and doc.hu_student:
+		return
+
+	ensure_student_from_lead(doc)
+
+
+def ensure_student_from_lead(lead):
+	if isinstance(lead, str):
+		lead = frappe.get_doc("CRM Lead", lead)
 
 	if hasattr(lead, "hu_student") and lead.hu_student:
-		return {"name": lead.hu_student, "message": _("Student record already exists.")}
+		return frappe.get_doc("HU Student", lead.hu_student)
 
 	student = frappe.get_doc(
 		{
@@ -21,10 +42,7 @@ def create_student_from_lead(lead_name: str) -> dict[str, str]:
 		}
 	).insert(ignore_permissions=True)
 
-	update_values = {"status": "Approved"}
 	if frappe.get_meta("CRM Lead").has_field("hu_student"):
-		update_values["hu_student"] = student.name
-	lead.update(update_values)
-	lead.save(ignore_permissions=True)
+		lead.db_set("hu_student", student.name, update_modified=False)
 
-	return {"name": student.name, "message": _("Student record created successfully.")}
+	return student
