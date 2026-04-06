@@ -6,4 +6,4 @@ no_cache = 1
 
 def get_context(context):
 	context.no_cache = 1
-	context.page_title = "Hajvery University Addmission Form"
+	context.page_title = "Hajvery University Admission Form"

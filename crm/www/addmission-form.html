@@ -2,98 +2,218 @@
 
 {% block page_content %}
 <style>
+	:root {
+		--hu-maroon: #9c1024;
+		--hu-maroon-deep: #7b0d1d;
+		--hu-cream: #f8f1ea;
+		--hu-ink: #1f1b20;
+		--hu-muted: #6f6871;
+		--hu-line: rgba(103, 36, 48, 0.12);
+		--hu-blush: #ead1d6;
+		--hu-white: #ffffff;
+		--hu-black: #0d0d0d;
+	}
+
 	.website-lead-poc {
-		min-height: 100vh;
-		padding: 3rem 1rem;
-		background:
-			radial-gradient(circle at top, rgba(11, 110, 79, 0.12), transparent 34%),
-			linear-gradient(180deg, #f5fbf8 0%, #ffffff 100%);
+		background: linear-gradient(180deg, #fffdfa 0%, #f7ecef 48%, #120f10 48%, #120f10 100%);
+		color: var(--hu-ink);
+		margin: 0 calc(50% - 50vw);
+		width: 100vw;
+		overflow: hidden;
 	}
 
-	.website-lead-poc__card {
-		max-width: 34rem;
-		margin: 0 auto;
-		padding: 2rem;
-		border: 1px solid #d7e6de;
-		border-radius: 1.25rem;
-		background: #ffffff;
-		box-shadow: 0 24px 60px rgba(16, 24, 40, 0.08);
-	}
-
-	.website-lead-poc__brand {
+	.website-lead-poc__topbar {
 		display: flex;
-		flex-direction: column;
 		align-items: center;
-		text-align: center;
-		margin-bottom: 1.25rem;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: 1rem 4.5rem;
+		background: rgba(255, 255, 255, 0.96);
+		font-size: 0.95rem;
 	}
 
-	.website-lead-poc__logo {
-		width: min(13rem, 45vw);
-		height: auto;
-		margin-bottom: 1rem;
+	.website-lead-poc__topbar-links,
+	.website-lead-poc__topbar-social,
+	.website-lead-poc__nav-links {
+		display: flex;
+		align-items: center;
+		gap: 1.35rem;
 	}
 
-	.website-lead-poc__eyebrow {
-		display: inline-block;
-		margin-bottom: 0.75rem;
-		padding: 0.35rem 0.7rem;
+	.website-lead-poc__topbar a,
+	.website-lead-poc__nav a,
+	.website-lead-poc__footer a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.website-lead-poc__social-pill {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.8rem;
+		height: 1.8rem;
 		border-radius: 999px;
-		background: #e7f4ee;
-		color: #0b6e4f;
-		font-size: 0.85rem;
+		background: #f5e6e9;
+		color: var(--hu-maroon);
+		font-size: 0.8rem;
 		font-weight: 700;
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
 	}
 
-	.website-lead-poc h1 {
-		margin-bottom: 0.75rem;
-		color: #123524;
-		font-size: clamp(2rem, 5vw, 2.75rem);
-		line-height: 1.05;
+	.website-lead-poc__nav {
+		position: sticky;
+		top: 0;
+		z-index: 20;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0.85rem 4.5rem;
+		background: linear-gradient(90deg, var(--hu-maroon-deep), var(--hu-maroon));
+		color: var(--hu-white);
+		box-shadow: 0 10px 35px rgba(123, 13, 29, 0.18);
 	}
 
-	.website-lead-poc p {
+	.website-lead-poc__nav-brand {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.website-lead-poc__nav-logo {
+		width: 4rem;
+		height: 4rem;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.15);
+		padding: 0.3rem;
+	}
+
+	.website-lead-poc__nav-title {
+		font-size: 1.9rem;
+		font-weight: 700;
+		line-height: 0.95;
+		letter-spacing: 0.02em;
+	}
+
+	.website-lead-poc__nav-apply {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 6.6rem;
+		height: 6.6rem;
+		margin-top: 2.8rem;
+		border: 2px solid rgba(255, 255, 255, 0.9);
+		border-radius: 999px;
+		background: var(--hu-white);
+		color: var(--hu-maroon);
+		font-size: 1.55rem;
+		font-weight: 500;
+		box-shadow: 0 0 0 9px rgba(255, 255, 255, 0.18);
+	}
+
+	.website-lead-poc__hero {
+		position: relative;
+		padding: 1.5rem 0 0;
+		background:
+			linear-gradient(rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0.66)),
+			url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80")
+				center/cover no-repeat;
+	}
+
+	.website-lead-poc__hero-panel {
+		max-width: 1180px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1fr 1.05fr;
+		border-radius: 1.8rem;
+		overflow: hidden;
+		backdrop-filter: blur(12px);
+		box-shadow: 0 22px 80px rgba(31, 27, 32, 0.2);
+	}
+
+	.website-lead-poc__form-card {
+		padding: 3rem 2.25rem 2.4rem;
+		background: rgba(255, 255, 255, 0.72);
+	}
+
+	.website-lead-poc__form-card p {
+		margin: 0 0 1rem;
+		color: var(--hu-ink);
+	}
+
+	.website-lead-poc__help {
 		margin-bottom: 1.5rem;
-		color: #496257;
+		font-size: 0.95rem;
+		color: var(--hu-muted);
 	}
 
-	.website-lead-poc__field {
-		margin-bottom: 1rem;
+	.website-lead-poc__help strong {
+		display: block;
+		margin: 0.65rem 0 0.3rem;
+		font-size: 1.9rem;
+		color: var(--hu-ink);
+		line-height: 1.08;
+	}
+
+	.website-lead-poc__help a {
+		color: var(--hu-maroon);
+		text-decoration: none;
+		font-weight: 700;
 	}
 
 	.website-lead-poc__label {
 		display: block;
 		margin-bottom: 0.45rem;
-		color: #123524;
-		font-weight: 600;
+		font-size: 0.95rem;
+		font-weight: 700;
+		color: #362a30;
+	}
+
+	.website-lead-poc__field {
+		margin-bottom: 0.95rem;
 	}
 
 	.website-lead-poc__input {
 		width: 100%;
-		padding: 0.9rem 1rem;
-		border: 1px solid #c7d8cf;
-		border-radius: 0.9rem;
-		background: #fbfdfc;
+		padding: 0.95rem 1rem;
+		border: 1px solid rgba(112, 69, 76, 0.18);
+		border-radius: 0.8rem;
+		background: rgba(255, 255, 255, 0.97);
 		font-size: 1rem;
 	}
 
 	.website-lead-poc__input:focus {
-		outline: 2px solid #98d5bb;
-		border-color: #0b6e4f;
+		outline: 2px solid rgba(156, 16, 36, 0.18);
+		border-color: var(--hu-maroon);
+	}
+
+	.website-lead-poc__button-row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem;
+		margin-top: 1.25rem;
 	}
 
 	.website-lead-poc__button {
-		width: 100%;
 		padding: 0.95rem 1rem;
 		border: 0;
-		border-radius: 0.9rem;
-		background: linear-gradient(135deg, #0b6e4f 0%, #198754 100%);
-		color: #ffffff;
+		border-radius: 0.8rem;
+		background: linear-gradient(135deg, #f04949 0%, #e83535 100%);
+		color: var(--hu-white);
 		font-size: 1rem;
 		font-weight: 700;
 		cursor: pointer;
+	}
+
+	.website-lead-poc__button--ghost {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.95rem 1rem;
+		border-radius: 0.8rem;
+		background: linear-gradient(135deg, #fd6464 0%, #ef2e2e 100%);
+		color: var(--hu-white);
+		font-weight: 700;
+		text-decoration: none;
 	}
 
 	.website-lead-poc__button[disabled] {
@@ -101,12 +221,23 @@
 		cursor: wait;
 	}
 
+	.website-lead-poc__meta {
+		margin-top: 1.1rem;
+		font-size: 0.92rem;
+		color: var(--hu-muted);
+	}
+
+	.website-lead-poc__meta a {
+		color: var(--hu-maroon);
+		text-decoration: none;
+	}
+
 	.website-lead-poc__message {
 		display: none;
 		margin-top: 1rem;
 		padding: 0.9rem 1rem;
-		border-radius: 0.9rem;
-		font-weight: 600;
+		border-radius: 0.85rem;
+		font-weight: 700;
 	}
 
 	.website-lead-poc__message.is-visible {
@@ -114,48 +245,412 @@
 	}
 
 	.website-lead-poc__message.is-success {
-		background: #e7f4ee;
-		color: #0b6e4f;
+		background: #ebfaf0;
+		color: #0f6c38;
 	}
 
 	.website-lead-poc__message.is-error {
-		background: #fce8e6;
+		background: #fce9e8;
 		color: #b42318;
+	}
+
+	.website-lead-poc__guide {
+		position: relative;
+		min-height: 100%;
+		padding: 2rem 2rem 1.5rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: end;
+		color: var(--hu-white);
+		background:
+			linear-gradient(rgba(99, 35, 52, 0.32), rgba(99, 35, 52, 0.68)),
+			url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80")
+				center/cover no-repeat;
+	}
+
+	.website-lead-poc__guide-tag {
+		position: absolute;
+		top: 1.4rem;
+		right: 1.4rem;
+		padding: 0.45rem 0.8rem;
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.16);
+		backdrop-filter: blur(5px);
+		font-size: 0.85rem;
+		font-weight: 700;
+	}
+
+	.website-lead-poc__guide-copy {
+		max-width: 28rem;
+		margin: 0 auto 1.25rem;
+		text-align: center;
+		font-size: 1.05rem;
+		line-height: 1.5;
+	}
+
+	.website-lead-poc__eyebrow {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		margin-bottom: 0.85rem;
+		padding: 0.35rem 0.75rem;
+		border-radius: 999px;
+		background: rgba(156, 16, 36, 0.08);
+		color: var(--hu-maroon);
+		font-size: 0.78rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.website-lead-poc__guide-button {
+		display: block;
+		width: 100%;
+		padding: 0.95rem 1rem;
+		border-radius: 0.8rem;
+		background: rgba(255, 255, 255, 0.93);
+		color: #43363d;
+		text-align: center;
+		text-decoration: none;
+		font-weight: 700;
+	}
+
+	.website-lead-poc__showcase {
+		padding: 0 0 5rem;
+		background:
+			linear-gradient(180deg, rgba(216, 192, 198, 0.58) 0%, rgba(234, 209, 214, 0.88) 100%);
+	}
+
+	.website-lead-poc__showcase-inner {
+		max-width: 1300px;
+		margin: 0 auto;
+		padding: 2.5rem 3rem 0;
+		display: grid;
+		grid-template-columns: 0.8fr 1.45fr 0.8fr;
+		gap: 2rem;
+		align-items: stretch;
+	}
+
+	.website-lead-poc__frame-stack {
+		display: grid;
+		gap: 2rem;
+	}
+
+	.website-lead-poc__frame,
+	.website-lead-poc__frame-tall {
+		position: relative;
+		overflow: hidden;
+		border-radius: 1.2rem;
+		box-shadow: 0 16px 40px rgba(44, 23, 29, 0.12);
+	}
+
+	.website-lead-poc__frame img,
+	.website-lead-poc__frame-tall img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.website-lead-poc__frame {
+		aspect-ratio: 0.78;
+	}
+
+	.website-lead-poc__frame-tall {
+		aspect-ratio: 0.65;
+	}
+
+	.website-lead-poc__centerpiece {
+		position: relative;
+		min-height: 39rem;
+		padding: 3rem 2rem 2rem;
+	}
+
+	.website-lead-poc__centerpiece::before,
+	.website-lead-poc__centerpiece::after {
+		content: "";
+		position: absolute;
+		border: 1px solid rgba(156, 16, 36, 0.28);
+		border-radius: 999px;
+	}
+
+	.website-lead-poc__centerpiece::before {
+		top: 46%;
+		left: 47%;
+		width: 6.1rem;
+		height: 6.1rem;
+		transform: translate(-50%, -50%);
+		background: rgba(255, 255, 255, 0.85);
+	}
+
+	.website-lead-poc__centerpiece::after {
+		top: 46%;
+		left: 47%;
+		width: 7.2rem;
+		height: 7.2rem;
+		transform: translate(-50%, -50%);
+	}
+
+	.website-lead-poc__play {
+		position: absolute;
+		top: 46%;
+		left: 47%;
+		transform: translate(-50%, -50%);
+		z-index: 1;
+		color: var(--hu-maroon);
+		font-size: 2rem;
+		font-weight: 700;
+	}
+
+	.website-lead-poc__center-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2rem;
+		align-items: start;
+	}
+
+	.website-lead-poc__footer {
+		background: #0c0b0c;
+		color: var(--hu-white);
+	}
+
+	.website-lead-poc__footer-inner {
+		max-width: 1180px;
+		margin: 0 auto;
+		padding: 4rem 2rem 1.4rem;
+	}
+
+	.website-lead-poc__footer-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2.2rem;
+	}
+
+	.website-lead-poc__footer h3 {
+		margin: 0 0 1rem;
+		font-size: 1.15rem;
+	}
+
+	.website-lead-poc__footer p {
+		margin: 0 0 0.55rem;
+		color: rgba(255, 255, 255, 0.72);
+		line-height: 1.65;
+	}
+
+	.website-lead-poc__footer-bottom {
+		margin-top: 2.75rem;
+		padding-top: 1.4rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.12);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		font-size: 0.9rem;
+		color: rgba(255, 255, 255, 0.78);
+	}
+
+	@media (max-width: 1200px) {
+		.website-lead-poc__topbar,
+		.website-lead-poc__nav {
+			padding-left: 2rem;
+			padding-right: 2rem;
+		}
+
+		.website-lead-poc__hero-panel,
+		.website-lead-poc__showcase-inner,
+		.website-lead-poc__footer-inner {
+			max-width: 100%;
+		}
+	}
+
+	@media (max-width: 980px) {
+		.website-lead-poc__topbar,
+		.website-lead-poc__nav,
+		.website-lead-poc__footer-bottom {
+			flex-direction: column;
+		}
+
+		.website-lead-poc__nav-apply {
+			margin-top: 0.5rem;
+			width: 4.75rem;
+			height: 4.75rem;
+			font-size: 1.1rem;
+			box-shadow: none;
+		}
+
+		.website-lead-poc__hero-panel,
+		.website-lead-poc__showcase-inner,
+		.website-lead-poc__footer-grid,
+		.website-lead-poc__center-grid,
+		.website-lead-poc__button-row {
+			grid-template-columns: 1fr;
+		}
+
+		.website-lead-poc__showcase-inner {
+			padding-left: 1rem;
+			padding-right: 1rem;
+		}
+
+		.website-lead-poc__centerpiece {
+			min-height: auto;
+			padding-left: 0;
+			padding-right: 0;
+		}
+
+		.website-lead-poc__centerpiece::before,
+		.website-lead-poc__centerpiece::after,
+		.website-lead-poc__play {
+			display: none;
+		}
 	}
 </style>
 
-	<section class="website-lead-poc">
-	<div class="website-lead-poc__card">
-		<div class="website-lead-poc__brand">
-			<img
-				class="website-lead-poc__logo"
-				src="/assets/crm/images/logo.png"
-				alt="Hajvery University logo"
-			>
-			<h1>Hajvery University</h1>
+<section class="website-lead-poc">
+	<div class="website-lead-poc__topbar">
+		<div class="website-lead-poc__topbar-links">
+			<a href="#">Student Portal</a>
 		</div>
-		<p class="website-lead-poc__eyebrow">Addmission Form</p>
-		<form id="website-lead-form">
-
-			<div class="website-lead-poc__field">
-				<label class="website-lead-poc__label" for="lead-name">Name</label>
-				<input class="website-lead-poc__input" id="lead-name" name="name" type="text" required>
-			</div>
-
-			<div class="website-lead-poc__field">
-				<label class="website-lead-poc__label" for="lead-phone">Phone</label>
-				<input class="website-lead-poc__input" id="lead-phone" name="phone" type="tel" required>
-			</div>
-
-			<div class="website-lead-poc__field">
-				<label class="website-lead-poc__label" for="lead-email">Email</label>
-				<input class="website-lead-poc__input" id="lead-email" name="email" type="email" required>
-			</div>
-
-			<button class="website-lead-poc__button" type="submit">Submit Lead</button>
-			<div id="website-lead-message" class="website-lead-poc__message" aria-live="polite"></div>
-		</form>
+		<div class="website-lead-poc__topbar-links">
+			<a href="#">Jobs @ HU</a>
+			<a href="#">HU Policies</a>
+			<a href="#">Request Info</a>
+		</div>
+		<div class="website-lead-poc__topbar-social">
+			<span class="website-lead-poc__social-pill">f</span>
+			<span class="website-lead-poc__social-pill">w</span>
+			<span class="website-lead-poc__social-pill">ig</span>
+			<span class="website-lead-poc__social-pill">yt</span>
+		</div>
 	</div>
+
+	<div class="website-lead-poc__nav">
+		<div class="website-lead-poc__nav-brand">
+			<img class="website-lead-poc__nav-logo" src="/files/hajvery-university-logo.png" alt="Hajvery University logo">
+			<div class="website-lead-poc__nav-title">HAJVERY<br>UNIVERSITY</div>
+		</div>
+		<div class="website-lead-poc__nav-links">
+			<a href="#">About</a>
+			<a href="#">Admission</a>
+			<a href="#">Academics</a>
+			<a href="#">Current Students</a>
+		</div>
+		<div class="website-lead-poc__nav-apply">Apply</div>
+	</div>
+
+	<div class="website-lead-poc__hero">
+		<div class="website-lead-poc__hero-panel">
+			<div class="website-lead-poc__form-card">
+				<div class="website-lead-poc__eyebrow">Admissions 2026</div>
+				<p>Start your admission inquiry with Hajvery University and our team will contact you shortly.</p>
+				<div class="website-lead-poc__help">
+					<strong>Apply to Hajvery University</strong>
+					Need help? Email Us: <a href="mailto:admission@hup.edu.pk">admission@hup.edu.pk</a>
+				</div>
+
+				<form id="website-lead-form">
+					<div class="website-lead-poc__field">
+						<label class="website-lead-poc__label" for="lead-name">Full Name</label>
+						<input class="website-lead-poc__input" id="lead-name" name="name" type="text" placeholder="Enter your full name" required>
+					</div>
+
+					<div class="website-lead-poc__field">
+						<label class="website-lead-poc__label" for="lead-phone">Mobile Number</label>
+						<input class="website-lead-poc__input" id="lead-phone" name="phone" type="tel" placeholder="03XX-XXXXXXX" required>
+					</div>
+
+					<div class="website-lead-poc__field">
+						<label class="website-lead-poc__label" for="lead-email">Email Address</label>
+						<input class="website-lead-poc__input" id="lead-email" name="email" type="email" placeholder="you@example.com" required>
+					</div>
+
+					<div class="website-lead-poc__button-row">
+						<button class="website-lead-poc__button" type="submit">Submit Inquiry</button>
+						<a class="website-lead-poc__button--ghost" href="#showcase">View Student Life</a>
+					</div>
+
+					<div id="website-lead-message" class="website-lead-poc__message" aria-live="polite"></div>
+				</form>
+
+				<div class="website-lead-poc__meta">
+					<p><a href="#footer">Talk to an admissions counsellor</a></p>
+					<p>*Name, mobile number, and email are required.</p>
+				</div>
+			</div>
+
+			<div class="website-lead-poc__guide">
+				<div class="website-lead-poc__guide-tag">Student Help</div>
+				<div class="website-lead-poc__guide-copy">
+					Explore campus life, discover your pathway, and let our admissions team guide you through every next step.
+				</div>
+				<a class="website-lead-poc__guide-button" href="#footer">Admission Guide</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="website-lead-poc__showcase" id="showcase">
+		<div class="website-lead-poc__showcase-inner">
+			<div class="website-lead-poc__frame-stack">
+				<div class="website-lead-poc__frame">
+					<img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=900&q=80" alt="Faculty session">
+				</div>
+			</div>
+
+			<div class="website-lead-poc__centerpiece">
+				<div class="website-lead-poc__play">▶</div>
+				<div class="website-lead-poc__center-grid">
+					<div class="website-lead-poc__frame-tall">
+						<img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80" alt="Student photographer">
+					</div>
+					<div class="website-lead-poc__frame-tall">
+						<img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1000&q=80" alt="Media student">
+					</div>
+				</div>
+			</div>
+
+			<div class="website-lead-poc__frame-stack">
+				<div class="website-lead-poc__frame">
+					<img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80" alt="Students collaborating">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="website-lead-poc__footer" id="footer">
+		<div class="website-lead-poc__footer-inner">
+			<div class="website-lead-poc__footer-grid">
+				<div>
+					<h3>Admissions</h3>
+					<p>We know how hard the application process can be, so we have provided a step by step guide here.</p>
+					<p><a href="#">Apply Now</a></p>
+					<p><a href="mailto:admission@hup.edu.pk">Email: admission@hup.edu.pk</a></p>
+				</div>
+				<div>
+					<h3>Jobs at HU</h3>
+					<p>Make your career with a leading top ranking Govt Chartered Autonomous University.</p>
+					<p><a href="#">Apply Now</a></p>
+					<p><a href="mailto:hr@hu.edu.pk">Email: hr@hu.edu.pk</a></p>
+				</div>
+				<div>
+					<h3>Contact Us</h3>
+					<p>43-52 Industrial Area</p>
+					<p>Gulberg III, Lahore</p>
+					<p>UAN: 042-111-777-007</p>
+					<p>Hotline: 0304-1116667</p>
+					<p><a href="mailto:admin@hup.edu.pk">Email: admin@hup.edu.pk</a></p>
+				</div>
+			</div>
+
+			<div class="website-lead-poc__footer-bottom">
+				<div>Made With Love by Mind Pixelz Ltd. All Rights Reserved</div>
+				<div class="website-lead-poc__topbar-social">
+					<span class="website-lead-poc__social-pill">f</span>
+					<span class="website-lead-poc__social-pill">w</span>
+					<span class="website-lead-poc__social-pill">ig</span>
+					<span class="website-lead-poc__social-pill">yt</span>
+				</div>
+			</div>
+		</div>
+	</footer>
 </section>
 
 <script>
@@ -170,26 +665,13 @@
 	}
 
 	function extractErrorMessage(error) {
-		if (!error) {
-			return "Unable to capture lead right now.";
-		}
-
-		if (typeof error === "string") {
-			return error;
-		}
-
-		if (error._error_message) {
-			return error._error_message;
-		}
-
-		if (error.message) {
-			return error.message;
-		}
-
+		if (!error) return "Unable to capture lead right now.";
+		if (typeof error === "string") return error;
+		if (error._error_message) return error._error_message;
+		if (error.message) return error.message;
 		if (error.exc_type === "CSRFTokenError") {
 			return "Your session expired. Please refresh the page and try again.";
 		}
-
 		return "Unable to capture lead right now.";
 	}
 
@@ -218,5 +700,17 @@
 			},
 		});
 	});
+</script>
+<script type="text/javascript">
+	var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+	(function () {
+		var s1 = document.createElement("script");
+		var s0 = document.getElementsByTagName("script")[0];
+		s1.async = true;
+		s1.src = "https://embed.tawk.to/69d3c9641678ab1c34d730bf/1jlhklcpq";
+		s1.charset = "UTF-8";
+		s1.setAttribute("crossorigin", "*");
+		s0.parentNode.insertBefore(s1, s0);
+	})();
 </script>
 {% endblock %}
