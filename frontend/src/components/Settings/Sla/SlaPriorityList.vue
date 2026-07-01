@@ -40,21 +40,13 @@
             />
           </div>
           <div v-else-if="column.key === 'first_response_time'">
-            <Popover>
-              <template #target="{ togglePopover }">
-                <div
-                  class="min-h-7 w-full cursor-pointer select-none leading-5 p-1 px-2 hover:bg-surface-gray-2 rounded"
-                  @click="togglePopover()"
-                >
-                  {{ formatTimeHMS(row[column.key]) }}
-                </div>
-              </template>
-              <template #body>
-                <div class="absolute bg-surface-modal top-2 rounded">
-                  <DurationPicker v-model="row[column.key]" />
-                </div>
-              </template>
-            </Popover>
+            <DurationInput
+              :value="row[column.key]"
+              variant="ghost"
+              :long-form="true"
+              class="[&_input]:bg-transparent [&_input]:hover:bg-surface-gray-2"
+              @change="(v) => (row[column.key] = v)"
+            />
           </div>
           <div v-else class="ml-2">
             <select
@@ -75,7 +67,7 @@
         <div class="flex justify-end">
           <Dropdown placement="right" :options="dropdownOptions(row)">
             <Button
-              icon="more-horizontal"
+              icon="lucide-more-horizontal"
               variant="ghost"
               @click="isConfirmingDelete = false"
             />
@@ -107,7 +99,7 @@
         v-if="slaData.priorities.length !== priorityOptions.length"
         variant="subtle"
         :label="__('Add Row')"
-        icon-left="plus"
+        icon-left="lucide-plus"
         @click="addRow"
       />
     </div>
@@ -125,18 +117,13 @@ import {
   createResource,
   Dropdown,
   ErrorMessage,
-  Popover,
   toast,
 } from 'frappe-ui'
 import { slaData, slaDataErrors, validateSlaData } from './utils'
-import {
-  ConfirmDelete,
-  formatTimeHMS,
-  getGridTemplateColumnsForTable,
-} from '../../../utils'
+import { ConfirmDelete, getGridTemplateColumnsForTable } from '../../../utils'
 import { computed, inject, provide, reactive, ref } from 'vue'
 import EditResponseResolutionModal from './EditResponseResolutionModal.vue'
-import DurationPicker from '../../Controls/DurationPicker.vue'
+import DurationInput from '../../Controls/DurationInput.vue'
 import { watchDebounced } from '@vueuse/core'
 
 const step = inject('step')

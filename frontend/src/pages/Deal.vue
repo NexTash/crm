@@ -41,7 +41,7 @@
       v-model="tabIndex"
       as="div"
       :tabs="tabs"
-      class="flex flex-1 overflow-hidden flex-col [&_[role='tab']]:px-0 [&_[role='tab']]:shrink-0 [&_[role='tablist']]:px-5 [&_[role='tablist']]:min-h-[45px] [&_[role='tablist']]:gap-7.5 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
+      class="flex flex-1 overflow-hidden flex-col [&_[role='tab']]:px-0 [&_[role='tab']]:shrink-0 [&_[role='tablist']]:px-5 [&_[role='tablist']::-webkit-scrollbar]:h-0 [&_[role='tablist']]:min-h-[45px] [&_[role='tablist']]:gap-7.5 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
     >
       <template #tab-panel>
         <Activities
@@ -58,7 +58,7 @@
     </Tabs>
     <Resizer side="right" class="flex flex-col justify-between border-l">
       <div
-        class="flex h-[45px] cursor-copy items-center border-b px-5 py-2.5 text-lg font-medium text-ink-gray-9"
+        class="flex h-[45px] cursor-copy items-center border-b px-5 py-2.5 text-lg-medium text-ink-gray-9"
         @click="copyToClipboard(dealId)"
       >
         {{ __(dealId) }}
@@ -76,7 +76,7 @@
         </Tooltip>
         <div class="flex flex-col gap-2.5 truncate text-ink-gray-9">
           <Tooltip :text="organization?.name || __('Set an Organization')">
-            <div class="truncate text-2xl font-medium">
+            <div class="truncate text-3xl-medium">
               {{ title }}
             </div>
           </Tooltip>
@@ -120,7 +120,7 @@
               v-if="canDelete"
               :tooltip="__('Delete')"
               variant="subtle"
-              icon="trash-2"
+              icon="lucide-trash-2"
               theme="red"
               @click="deleteDeal"
             />
@@ -166,7 +166,7 @@
                   <Button
                     class="h-7 px-3"
                     variant="ghost"
-                    icon="plus"
+                    icon="lucide-plus"
                     @click="togglePopover()"
                   />
                 </template>
@@ -219,7 +219,7 @@
                         <div class="flex items-center">
                           <Dropdown :options="contactOptions(contact)">
                             <Button
-                              icon="more-horizontal"
+                              icon="lucide-more-horizontal"
                               class="text-ink-gray-5"
                               variant="ghost"
                             />
@@ -239,7 +239,7 @@
                             variant="ghost"
                             class="transition-all duration-300 ease-in-out"
                             :class="{ 'rotate-90': opened }"
-                            icon="chevron-right"
+                            icon="lucide-chevron-right"
                             @click="toggle()"
                           />
                         </div>
@@ -271,7 +271,7 @@
                 </div>
                 <div
                   v-if="i != dealContacts.data.length - 1"
-                  class="mx-2 h-px border-t border-outline-gray-modals"
+                  class="mx-2 h-px border-t border-outline-elevation-2"
                 />
               </div>
               <div
@@ -379,7 +379,8 @@ import { globalStore } from '@/stores/global'
 import { statusesStore } from '@/stores/statuses'
 import { getMeta } from '@/stores/meta'
 import { useDocument } from '@/data/document'
-import { whatsappEnabled, callEnabled } from '@/composables/settings'
+import { whatsappEnabled } from '@/composables/whatsapp'
+import { callEnabled } from '@/composables/telephony'
 import { useBroadcast } from '@/composables/useBroadcast'
 import {
   createResource,
@@ -425,8 +426,15 @@ const errorTitle = ref('')
 const errorMessage = ref('')
 const showDeleteLinkedDocModal = ref(false)
 
-const { triggerOnChange, assignees, permissions, document, scripts, error } =
-  useDocument('CRM Deal', props.dealId)
+const {
+  triggerOnChange,
+  triggerOnRender,
+  assignees,
+  permissions,
+  document,
+  scripts,
+  error,
+} = useDocument('CRM Deal', props.dealId)
 
 const canDelete = computed(() => permissions.data?.permissions?.delete || false)
 
@@ -486,10 +494,11 @@ watch(
 
 const organization = computed(() => organizationDocument.value?.doc || {})
 
-onMounted(() => {
+onMounted(async () => {
   $socket.on('crm_customer_created', () => {
     toast.success(__('Customer Created Successfully'))
   })
+  if (document.doc) await triggerOnRender()
 })
 
 onBeforeUnmount(() => {

@@ -10,7 +10,7 @@
         >
           <template v-if="filters?.size" #suffix>
             <div
-              class="flex h-5 w-5 items-center justify-center rounded-[5px] bg-surface-white pt-px text-xs font-medium text-ink-gray-8 shadow-sm"
+              class="flex h-5 w-5 items-center justify-center rounded-[5px] bg-surface-base pt-px text-xs-medium text-ink-gray-8 shadow-sm"
             >
               {{ filters.size }}
             </div>
@@ -20,14 +20,14 @@
           v-if="filters?.size"
           :tooltip="__('Clear All Filters')"
           class="rounded-l-none border-l"
-          icon="x"
+          icon="lucide-x"
           @click.stop="clearfilter(close)"
         />
       </div>
     </template>
     <template #body="{ close }">
       <div
-        class="my-2 min-w-40 rounded-lg bg-surface-modal shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
+        class="my-2 min-w-40 rounded-lg bg-surface-elevation-2 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <div class="min-w-72 p-2 sm:min-w-[400px]">
           <template v-if="filters?.size">
@@ -45,7 +45,7 @@
                   <Button
                     class="flex"
                     variant="ghost"
-                    icon="x"
+                    icon="lucide-x"
                     @click="removeFilter(i)"
                   />
                 </div>
@@ -113,7 +113,7 @@
                 <Button
                   class="flex"
                   variant="ghost"
-                  icon="x"
+                  icon="lucide-x"
                   @click="removeFilter(i)"
                 />
               </div>
@@ -159,6 +159,8 @@
 import FilterIcon from '@/components/Icons/FilterIcon.vue'
 import Link from '@/components/Controls/Link.vue'
 import Autocomplete from '@/components/frappe-ui/Autocomplete.vue'
+import DurationInput from '@/components/Controls/DurationInput.vue'
+import RatingInput from '@/components/Controls/RatingInput.vue'
 import {
   FormControl,
   createResource,
@@ -176,6 +178,8 @@ const typeNumber = ['Float', 'Int', 'Currency', 'Percent']
 const typeSelect = ['Select']
 const typeString = ['Data', 'Long Text', 'Small Text', 'Text Editor', 'Text']
 const typeDate = ['Date', 'Datetime']
+const typeDuration = ['Duration']
+const typeRating = ['Rating']
 
 const props = defineProps({
   doctype: { type: String, required: true },
@@ -328,7 +332,7 @@ function getOperators(fieldtype, fieldname) {
   if (typeCheck.includes(fieldtype)) {
     options.push(...[{ label: __('Equals'), value: 'equals' }])
   }
-  if (['Duration'].includes(fieldtype)) {
+  if (typeDuration.includes(fieldtype)) {
     options.push(
       ...[
         { label: __('Like'), value: 'like' },
@@ -351,6 +355,19 @@ function getOperators(fieldtype, fieldname) {
         { label: __('<='), value: '<=' },
         { label: __('Between'), value: 'between' },
         { label: __('Timespan'), value: 'timespan' },
+      ],
+    )
+  }
+  if (typeRating.includes(fieldtype)) {
+    options.push(
+      ...[
+        { label: __('Equals'), value: 'equals' },
+        { label: __('Not equals'), value: 'not equals' },
+        { label: __('Greater than'), value: '>' },
+        { label: __('Less than'), value: '<' },
+        { label: __('Greater than or equal to'), value: '>=' },
+        { label: __('Less than or equal to'), value: '<=' },
+        { label: __('Is'), value: 'is' },
       ],
     )
   }
@@ -406,6 +423,14 @@ function getValueControl(f) {
     return h(FormControl, { type: 'number' })
   } else if (typeDate.includes(fieldtype) && operator == 'between') {
     return h(DateRangePicker, { value: f.value, iconLeft: '' })
+  } else if (typeDuration.includes(fieldtype)) {
+    return h(DurationInput, { value: f.value })
+  } else if (typeRating.includes(fieldtype)) {
+    return h(RatingInput, {
+      value: f.value,
+      max: options || 5,
+      class: '!flex',
+    })
   } else if (typeDate.includes(fieldtype)) {
     return h(fieldtype == 'Date' ? DatePicker : DateTimePicker, {
       value: f.value,

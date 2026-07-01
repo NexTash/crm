@@ -5,9 +5,9 @@ import json
 
 import frappe
 from frappe import _
-from frappe.desk.form.assign_to import add as assign
+from frappe.desk.form.assign_to import _add as assign
 from frappe.model.document import Document
-from frappe.utils import has_gravatar, validate_email_address
+from frappe.utils import validate_email_address
 
 from crm.fcrm.doctype.crm_service_level_agreement.utils import get_sla
 from crm.fcrm.doctype.crm_status_change_log.crm_status_change_log import (
@@ -77,6 +77,7 @@ class CRMLead(Document):
 		self.set_sla()
 
 	def validate(self):
+		self.validate_status()
 		self.set_full_name()
 		self.set_lead_name()
 		self.set_title()
@@ -96,6 +97,13 @@ class CRMLead(Document):
 
 	def before_save(self):
 		self.apply_sla()
+
+	def validate_status(self):
+		if self.is_new() and not self.status:
+			if frappe.db.exists("CRM Lead Status", "New"):
+				self.status = "New"
+			else:
+				self.status = frappe.get_all("CRM Lead Status", {"type": "Open"}, pluck="name")[0]
 
 	def set_full_name(self):
 		if self.first_name:
@@ -132,9 +140,6 @@ class CRMLead(Document):
 
 			if self.email == self.lead_owner:
 				frappe.throw(_("Lead Owner cannot be same as the Lead Email Address"))
-
-			if self.is_new() or not self.image:
-				self.image = has_gravatar(self.email)
 
 	def validate_lost_reason(self):
 		"""
@@ -269,29 +274,23 @@ class CRMLead(Document):
 		)
 
 	def contact_exists(self, throw=True):
+		# Match only on email which uniquely identifies a person
+		if not self.email:
+			return False
+
 		email_exist = frappe.db.exists("Contact Email", {"email_id": self.email})
-		phone_exist = frappe.db.exists("Contact Phone", {"phone": self.phone})
-		mobile_exist = frappe.db.exists("Contact Phone", {"phone": self.mobile_no})
+		if not email_exist:
+			return False
 
-		doctype = "Contact Email" if email_exist else "Contact Phone"
-		name = email_exist or phone_exist or mobile_exist
+		contact = frappe.db.get_value("Contact Email", email_exist, "parent")
 
-		if name:
-			text = "Email" if email_exist else "Phone" if phone_exist else "Mobile No"
-			data = self.email if email_exist else self.phone if phone_exist else self.mobile_no
+		if throw:
+			frappe.throw(
+				_("Contact already exists with Email: {0}").format(self.email),
+				title=_("Contact Already Exists"),
+			)
 
-			value = "{0}: {1}".format(text, data)
-
-			contact = frappe.db.get_value(doctype, name, "parent")
-
-			if throw:
-				frappe.throw(
-					_("Contact already exists with {0}").format(value),
-					title=_("Contact Already Exists"),
-				)
-			return contact
-
-		return False
+		return contact
 
 	def create_deal(self, contact, organization, deal=None):
 		new_deal = frappe.new_doc("CRM Deal")

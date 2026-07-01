@@ -182,6 +182,14 @@ def add_default_fields_layout(force=False):
 			"doctype": "CRM Call Log",
 			"layout": '[{"name":"details_section","columns":[{"name":"column_uMSG","fields":["type","from","duration"]},{"name":"column_wiZT","fields":["to","status","caller","receiver"]}]}]',
 		},
+		"FCRM Note-Quick Entry": {
+			"doctype": "FCRM Note",
+			"layout": '[{"name":"details_section","columns":[{"name":"column_o2s9","fields":["title", "content"]}]}]',
+		},
+		"CRM Task-Quick Entry": {
+			"doctype": "CRM Task",
+			"layout": '[{"name":"first_tab","sections":[{"name":"details_section","columns":[{"name":"column_X9sG","fields":["title","description"]}]},{"name":"assignment_section","columns":[{"name":"column_9XjK","fields":["priority","due_date"]},{"name":"column_7s8n","fields":["assigned_to","status"]}],"hideBorder":true}]}]',
+		},
 	}
 
 	sidebar_fields_layouts = {
@@ -191,7 +199,7 @@ def add_default_fields_layout(force=False):
 		},
 		"CRM Deal-Side Panel": {
 			"doctype": "CRM Deal",
-			"layout": '[{"label": "Contacts", "name": "contacts_section", "opened": true, "editable": false, "contacts": []}, {"label": "Organization Details", "name": "organization_section", "opened": true, "columns": [{"name": "column_na2Q", "fields": ["organization", "website", "territory", "annual_revenue", "close_date", "probability", "next_step", "deal_owner"]}]}]',
+			"layout": '[{"label": "Contacts", "name": "contacts_section", "opened": true, "editable": false, "contacts": []}, {"label": "Organization Details", "name": "organization_section", "opened": true, "columns": [{"name": "column_na2Q", "fields": ["organization", "website", "territory", "annual_revenue", "closed_date", "probability", "next_step", "deal_owner"]}]}]',
 		},
 		"Contact-Side Panel": {
 			"doctype": "Contact",
@@ -266,31 +274,32 @@ def add_property_setter():
 
 
 def add_email_template_custom_fields():
-	if not frappe.get_meta("Email Template").has_field("enabled"):
-		click.secho("* Installing Custom Fields in Email Template")
+	meta = frappe.get_meta("Email Template")
 
-		create_custom_fields(
-			{
-				"Email Template": [
-					{
-						"default": "0",
-						"fieldname": "enabled",
-						"fieldtype": "Check",
-						"label": "Enabled",
-						"insert_after": "",
-					},
-					{
-						"fieldname": "reference_doctype",
-						"fieldtype": "Link",
-						"label": "Doctype",
-						"options": "DocType",
-						"insert_after": "enabled",
-					},
-				]
-			}
-		)
+	fields = [
+		{
+			"default": "0",
+			"fieldname": "enabled",
+			"fieldtype": "Check",
+			"label": "Enabled",
+			"insert_after": "",
+		},
+		{
+			"fieldname": "reference_doctype",
+			"fieldtype": "Link",
+			"label": "Doctype",
+			"options": "DocType",
+			"insert_after": "enabled",
+		},
+	]
 
-		frappe.clear_cache(doctype="Email Template")
+	fields = [field for field in fields if not meta.has_field(field["fieldname"])]
+	if not fields:
+		return
+
+	click.secho("* Installing Custom Fields in Email Template")
+	create_custom_fields({"Email Template": fields})
+	frappe.clear_cache(doctype="Email Template")
 
 
 def add_email_account_custom_field():

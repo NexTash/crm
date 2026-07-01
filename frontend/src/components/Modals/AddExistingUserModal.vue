@@ -1,12 +1,12 @@
 <template>
   <Dialog
-    v-model="show"
-    :options="{ title: __('Add Existing User') }"
+    v-model:open="show"
+    :title="__('Add Existing User')"
     @close="show = false"
   >
-    <template #body-content>
+    <template #default>
       <div class="flex gap-1 border rounded mb-4 p-2 text-ink-gray-5">
-        <FeatherIcon name="info" class="size-3.5 mt-0.5" />
+        <span class="lucide-info size-3.5 mt-0.5" aria-hidden="true" />
         <p class="text-p-sm">
           {{
             __(
@@ -69,7 +69,7 @@ import { usersStore } from '@/stores/users'
 import { createResource, toast } from 'frappe-ui'
 import { ref, computed } from 'vue'
 
-const { users, isAdmin, isManager } = usersStore()
+const { users, isAdmin } = usersStore()
 
 const show = defineModel({ type: Boolean })
 
@@ -90,7 +90,7 @@ const description = computed(() => {
 const roleOptions = computed(() => {
   return [
     { value: 'Sales User', label: __('Sales User') },
-    ...(isManager() ? [{ value: 'Sales Manager', label: __('Manager') }] : []),
+    ...(isAdmin() ? [{ value: 'Sales Manager', label: __('Manager') }] : []),
     ...(isAdmin() ? [{ value: 'System Manager', label: __('Admin') }] : []),
   ]
 })

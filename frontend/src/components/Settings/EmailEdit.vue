@@ -2,7 +2,7 @@
   <div class="flex flex-col h-full gap-4">
     <!-- title and desc -->
     <div role="heading" aria-level="1" class="flex justify-between gap-1">
-      <h2 class="text-xl font-semibold text-ink-gray-8">
+      <h2 class="text-2xl-semibold text-ink-gray-8">
         {{ __('Edit Email') }}
       </h2>
     </div>
@@ -113,6 +113,8 @@ const state = reactive({
   enable_outgoing: props.accountData.enable_outgoing || false,
   default_outgoing: props.accountData.default_outgoing || false,
   default_incoming: props.accountData.default_incoming || false,
+  create_lead_from_incoming_email:
+    props.accountData.create_lead_from_incoming_email || false,
 })
 
 const info = {

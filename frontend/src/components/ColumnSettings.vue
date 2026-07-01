@@ -12,7 +12,7 @@
     </template>
     <template #body="{ close }">
       <div
-        class="my-2 p-1.5 min-w-40 rounded-lg bg-surface-modal shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
+        class="my-2 p-1.5 min-w-40 rounded-lg bg-surface-elevation-2 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <div v-if="!edit">
           <Draggable
@@ -46,7 +46,7 @@
                     @click="removeColumn(element)"
                   >
                     <template #icon>
-                      <FeatherIcon name="x" class="h-3.5" />
+                      <span class="lucide-x h-3.5" aria-hidden="true" />
                     </template>
                   </Button>
                 </div>
@@ -54,7 +54,7 @@
             </template>
           </Draggable>
           <div
-            class="mt-1.5 flex flex-col gap-1 border-t border-outline-gray-modals pt-1.5"
+            class="mt-1.5 flex flex-col gap-1 border-t border-outline-elevation-2 pt-1.5"
           >
             <Autocomplete
               value=""
@@ -145,12 +145,13 @@ import DragIcon from '@/components/Icons/DragIcon.vue'
 import ReloadIcon from '@/components/Icons/ReloadIcon.vue'
 import Autocomplete from '@/components/frappe-ui/Autocomplete.vue'
 import { isTouchScreenDevice } from '@/utils'
+import { getMeta } from '@/stores/meta'
 import { Popover } from 'frappe-ui'
 import Draggable from 'vuedraggable'
 import { computed, ref } from 'vue'
 import { watchOnce } from '@vueuse/core'
 
-defineProps({
+const props = defineProps({
   doctype: { type: String, required: true },
   hideLabel: { type: Boolean, default: false },
 })
@@ -194,24 +195,38 @@ const rows = computed({
   },
 })
 
-const fields = computed(() => {
-  let allFields = list.value?.data?.fields
-  if (!allFields) return []
+const { getFields } = getMeta(props.doctype)
 
-  return allFields.filter((field) => {
-    return !columns.value.find((column) => column.key === field.fieldname)
+const fields = computed(() => {
+  const _fields = getFields({ withStandardFields: true }) || []
+  if (!_fields.length) return []
+
+  let existingFields = []
+  if (columns.value.length) {
+    existingFields = columns.value.map((column) => column.key)
+  }
+
+  return _fields.filter((field) => {
+    return (
+      !columns.value.find((column) => column.key === field.fieldname) &&
+      !existingFields.includes(field.fieldname)
+    )
   })
 })
 
 function addColumn(c) {
   if (!c) return
-  let align = ['Float', 'Int', 'Percent', 'Currency'].includes(c.type)
+  let align = ['Float', 'Int', 'Percent', 'Currency', 'Duration'].includes(
+    c.fieldtype,
+  )
     ? 'right'
     : 'left'
+
   let _column = {
     label: c.label,
     type: c.fieldtype,
     key: c.fieldname,
+    options: c.options,
     width: '10rem',
     align,
   }
