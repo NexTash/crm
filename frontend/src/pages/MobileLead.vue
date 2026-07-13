@@ -51,9 +51,10 @@
         :actions="document.actions"
       />
       <Button
-        :label="__('Convert')"
+        :label="applicantButtonLabel"
         variant="solid"
-        @click="showConvertToDealModal = true"
+        :loading="applicantActionLoading"
+        @click="handleApplicantAction"
       />
     </div>
   </div>
@@ -102,11 +103,6 @@
     v-else-if="errorTitle"
     :errorTitle="errorTitle"
     :errorMessage="errorMessage"
-  />
-  <ConvertToDealModal
-    v-if="showConvertToDealModal"
-    v-model="showConvertToDealModal"
-    :lead="doc"
   />
   <DeleteLinkedDocModal
     v-if="showDeleteLinkedDocModal"
@@ -164,7 +160,6 @@ import {
 } from 'frappe-ui'
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import ConvertToDealModal from '@/components/Modals/ConvertToDealModal.vue'
 
 const { brand } = getSettings()
 const { $dialog, $socket } = globalStore()
@@ -181,6 +176,11 @@ const props = defineProps({
 const errorTitle = ref('')
 const errorMessage = ref('')
 const showDeleteLinkedDocModal = ref(false)
+const applicantActionLoading = ref(false)
+const applicantState = ref({
+  student_applicant: '',
+  exists: false,
+})
 
 const {
   triggerOnChange,
@@ -192,10 +192,26 @@ const {
 } = useDocument('CRM Lead', props.leadId)
 
 const doc = computed(() => document.doc || {})
+const applicantName = computed(
+  () => applicantState.value.student_applicant || doc.value.custom_student_applicant,
+)
+const applicantButtonLabel = computed(() =>
+  applicantName.value ? __('View Application') : __('Convert to Applicant'),
+)
 
 onMounted(async () => {
   if (document.doc) await triggerOnRender()
 })
+
+watch(
+  () => doc.value.name,
+  (name) => {
+    if (name) {
+      refreshApplicantStatus()
+    }
+  },
+  { immediate: true },
+)
 
 watch(error, (err) => {
   if (err) {
@@ -366,8 +382,54 @@ function deleteLead() {
   showDeleteLinkedDocModal.value = true
 }
 
-// Convert to Deal
-const showConvertToDealModal = ref(false)
+async function refreshApplicantStatus() {
+  const leadName = doc.value.name || props.leadId
+  if (!leadName) return
+
+  let result = await call(
+    'crm.fcrm.doctype.crm_lead.crm_lead.get_student_applicant_status',
+    {
+      lead: leadName,
+    },
+  ).catch(() => null)
+
+  if (!result) return
+
+  applicantState.value = result
+  if (result.student_applicant) {
+    document.doc.custom_student_applicant = result.student_applicant
+  }
+}
+
+function openStudentApplicant(name) {
+  if (!name) return
+  window.location.assign(`/app/student-applicant/${encodeURIComponent(name)}`)
+}
+
+async function handleApplicantAction() {
+  if (applicantName.value) {
+    openStudentApplicant(applicantName.value)
+    return
+  }
+
+  applicantActionLoading.value = true
+  let result = await call('crm.fcrm.doctype.crm_lead.crm_lead.convert_to_applicant', {
+    lead: props.leadId,
+  }).catch((err) => {
+    toast.error(err.messages?.[0] || __('Error while converting to applicant'))
+    return null
+  })
+  applicantActionLoading.value = false
+
+  if (!result) return
+
+  applicantState.value = result
+  if (result.student_applicant) {
+    document.doc.custom_student_applicant = result.student_applicant
+  }
+  await document.reload?.()
+  toast.success(__(result.message || 'Applicant linked successfully'))
+}
 
 function statusLabel(status) {
   if (isTranslatable('CRM Lead Status')) return __(status)

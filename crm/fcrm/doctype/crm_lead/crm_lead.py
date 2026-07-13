@@ -2,12 +2,13 @@
 # For license information, please see license.txt
 
 import json
+import re
 
 import frappe
 from frappe import _
 from frappe.desk.form.assign_to import _add as assign
 from frappe.model.document import Document
-from frappe.utils import validate_email_address
+from frappe.utils import nowdate, validate_email_address
 
 from crm.fcrm.doctype.crm_service_level_agreement.utils import get_sla
 from crm.fcrm.doctype.crm_status_change_log.crm_status_change_log import (
@@ -506,3 +507,122 @@ def convert_to_deal(
 	organization = lead.create_organization(existing_organization)
 	_deal = lead.create_deal(contact, organization, deal)
 	return _deal
+
+
+
+
+
+# Code by ahmad
+
+def _normalize_email(value: str | None) -> str:
+	return (value or "").strip().lower()
+
+
+def _normalize_phone(value: str | None) -> str:
+	return re.sub(r"\D+", "", (value or "").strip())
+
+
+def _set_student_applicant_link(lead: Document, applicant_name: str) -> None:
+	if not applicant_name or not frappe.get_meta("CRM Lead").has_field("custom_student_applicant"):
+		return
+
+	if lead.get("custom_student_applicant") == applicant_name:
+		return
+
+	lead.db_set("custom_student_applicant", applicant_name, update_modified=False)
+	lead.set("custom_student_applicant", applicant_name)
+
+
+def _find_student_applicant_for_lead(lead: Document) -> str | None:
+	if not frappe.db.exists("DocType", "Student Applicant"):
+		return None
+
+	linked_applicant = (lead.get("custom_student_applicant") or "").strip()
+	if linked_applicant and frappe.db.exists("Student Applicant", linked_applicant):
+		return linked_applicant
+
+	email = _normalize_email(lead.email)
+	mobile_no = _normalize_phone(lead.mobile_no)
+	phone = _normalize_phone(lead.phone)
+
+	candidates = frappe.db.get_all(
+		"Student Applicant",
+		fields=["name", "student_email_id", "student_mobile_number", "custom_alternate_phone"],
+	)
+
+	for applicant in candidates:
+		if email and _normalize_email(applicant.get("student_email_id")) == email:
+			return applicant.get("name")
+
+	for applicant in candidates:
+		applicant_mobile = _normalize_phone(applicant.get("student_mobile_number"))
+		applicant_alternate = _normalize_phone(applicant.get("custom_alternate_phone"))
+		if mobile_no and mobile_no in {applicant_mobile, applicant_alternate}:
+			return applicant.get("name")
+		if phone and phone in {applicant_mobile, applicant_alternate}:
+			return applicant.get("name")
+
+	return None
+
+
+@frappe.whitelist()
+def get_student_applicant_status(lead: str) -> dict:
+	if not frappe.has_permission("CRM Lead", "read", lead):
+		frappe.throw(_("Not allowed to access this lead"), frappe.PermissionError)
+
+	lead_doc = frappe.get_cached_doc("CRM Lead", lead)
+	applicant_name = _find_student_applicant_for_lead(lead_doc)
+
+	if applicant_name:
+		_set_student_applicant_link(lead_doc, applicant_name)
+
+	return {
+		"student_applicant": applicant_name,
+		"exists": bool(applicant_name),
+		"label": "View Application" if applicant_name else "Convert to Applicant",
+	}
+
+
+@frappe.whitelist()
+def convert_to_applicant(lead: str) -> dict:
+	if not frappe.has_permission("CRM Lead", "write", lead):
+		frappe.throw(_("Not allowed to convert Lead to Applicant"), frappe.PermissionError)
+
+	if not frappe.db.exists("DocType", "Student Applicant"):
+		frappe.throw(_("Student Applicant DocType is not available."))
+
+	lead_doc = frappe.get_cached_doc("CRM Lead", lead)
+	selected_program = (getattr(lead_doc, "custom_system_programs", None) or "").strip()
+	if not selected_program:
+		frappe.throw(_("Please select the program"))
+
+	existing_applicant = _find_student_applicant_for_lead(lead_doc)
+	if existing_applicant:
+		_set_student_applicant_link(lead_doc, existing_applicant)
+		return {
+			"student_applicant": existing_applicant,
+			"created": False,
+			"exists": True,
+			"message": _("Already have registered"),
+			"label": "View Application",
+		}
+
+	applicant = frappe.new_doc("Student Applicant")
+	applicant.first_name = lead_doc.first_name
+	applicant.last_name = lead_doc.last_name
+	applicant.student_email_id = lead_doc.email
+	applicant.student_mobile_number = lead_doc.mobile_no or lead_doc.phone
+	applicant.program = selected_program
+	applicant.academic_term = "2026-2027 (Fall 2026)"
+	applicant.flags.ignore_mandatory = True
+	applicant.insert(ignore_permissions=True)
+
+	_set_student_applicant_link(lead_doc, applicant.name)
+
+	return {
+		"student_applicant": applicant.name,
+		"created": True,
+		"exists": True,
+		"message": _("Applicant created successfully"),
+		"label": "View Application",
+	}

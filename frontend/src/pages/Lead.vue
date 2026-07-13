@@ -35,9 +35,10 @@
         </template>
       </Dropdown>
       <Button
-        :label="__('Convert to Deal')"
+        :label="applicantButtonLabel"
         variant="solid"
-        @click="showConvertToDealModal = true"
+        :loading="applicantActionLoading"
+        @click="handleApplicantAction"
       />
     </template>
   </LayoutHeader>
@@ -202,11 +203,6 @@
     :errorTitle="errorTitle"
     :errorMessage="errorMessage"
   />
-  <ConvertToDealModal
-    v-if="showConvertToDealModal"
-    v-model="showConvertToDealModal"
-    :lead="doc"
-  />
   <FilesUploader
     v-model="showFilesUploader"
     doctype="CRM Lead"
@@ -259,7 +255,6 @@ import FilesUploader from '@/components/FilesUploader/FilesUploader.vue'
 import SidePanelLayout from '@/components/SidePanelLayout.vue'
 import SLASection from '@/components/SLASection.vue'
 import CustomActions from '@/components/CustomActions.vue'
-import ConvertToDealModal from '@/components/Modals/ConvertToDealModal.vue'
 import {
   openWebsite,
   setupCustomizations,
@@ -308,8 +303,12 @@ const activities = ref(null)
 const errorTitle = ref('')
 const errorMessage = ref('')
 const showDeleteLinkedDocModal = ref(false)
-const showConvertToDealModal = ref(false)
 const showFilesUploader = ref(false)
+const applicantActionLoading = ref(false)
+const applicantState = ref({
+  student_applicant: '',
+  exists: false,
+})
 
 const {
   triggerOnChange,
@@ -324,10 +323,26 @@ const {
 const canDelete = computed(() => permissions.data?.permissions?.delete || false)
 
 const doc = computed(() => document.doc || {})
+const applicantName = computed(
+  () => applicantState.value.student_applicant || doc.value.custom_student_applicant,
+)
+const applicantButtonLabel = computed(() =>
+  applicantName.value ? __('View Application') : __('Convert to Applicant'),
+)
 
 onMounted(async () => {
   if (document.doc) await triggerOnRender()
 })
+
+watch(
+  () => doc.value.name,
+  (name) => {
+    if (name) {
+      refreshApplicantStatus()
+    }
+  },
+  { immediate: true },
+)
 
 watch(error, (err) => {
   if (err) {
@@ -510,6 +525,55 @@ function openEmailBox() {
     activities.value.changeTabTo('emails')
   }
   nextTick(() => (activities.value.emailBox.show = true))
+}
+
+async function refreshApplicantStatus() {
+  const leadName = doc.value.name || props.leadId
+  if (!leadName) return
+
+  let result = await call(
+    'crm.fcrm.doctype.crm_lead.crm_lead.get_student_applicant_status',
+    {
+      lead: leadName,
+    },
+  ).catch(() => null)
+
+  if (!result) return
+
+  applicantState.value = result
+  if (result.student_applicant) {
+    document.doc.custom_student_applicant = result.student_applicant
+  }
+}
+
+function openStudentApplicant(name) {
+  if (!name) return
+  window.location.assign(`/app/student-applicant/${encodeURIComponent(name)}`)
+}
+
+async function handleApplicantAction() {
+  if (applicantName.value) {
+    openStudentApplicant(applicantName.value)
+    return
+  }
+
+  applicantActionLoading.value = true
+  let result = await call('crm.fcrm.doctype.crm_lead.crm_lead.convert_to_applicant', {
+    lead: props.leadId,
+  }).catch((err) => {
+    toast.error(err.messages?.[0] || __('Error while converting to applicant'))
+    return null
+  })
+  applicantActionLoading.value = false
+
+  if (!result) return
+
+  applicantState.value = result
+  if (result.student_applicant) {
+    document.doc.custom_student_applicant = result.student_applicant
+  }
+  await document.reload?.()
+  toast.success(__(result.message || 'Applicant linked successfully'))
 }
 
 function statusLabel(status) {

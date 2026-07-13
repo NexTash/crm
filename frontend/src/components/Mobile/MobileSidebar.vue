@@ -108,6 +108,7 @@ import { computed, h } from 'vue'
 import { mobileSidebarOpened as sidebarOpened } from '@/composables/settings'
 
 const { getPinnedViews, getPublicViews } = viewsStore()
+const hiddenSidebarLinks = ['Deals', 'Organizations', 'Call Logs']
 
 const links = [
   {
@@ -153,7 +154,7 @@ const allViews = computed(() => {
       name: 'All Views',
       hideLabel: true,
       opened: true,
-      views: links,
+      views: links.filter((link) => !hiddenSidebarLinks.includes(link.label)),
     },
   ]
   if (getPublicViews().length) {
