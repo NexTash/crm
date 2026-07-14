@@ -66,6 +66,18 @@
       class="flex flex-1 overflow-auto flex-col [&_[role='tab']]:px-0 [&_[role='tab']]:shrink-0 [&_[role='tablist']]:px-3 [&_[role='tablist']]:min-h-[45px] [&_[role='tablist']]:gap-7.5 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
     >
       <template #tab-panel="{ tab }">
+        <div
+          v-if="applicantNotice"
+          class="mx-3 mt-3 flex items-center justify-between gap-3 rounded border border-outline-gray-2 bg-surface-gray-1 px-4 py-2.5 text-base text-ink-gray-8"
+        >
+          <span>{{ applicantNotice }}</span>
+          <Button
+            variant="ghost"
+            icon="lucide-x"
+            :tooltip="__('Close')"
+            @click="applicantNotice = ''"
+          />
+        </div>
         <div v-if="tab.name == 'Details'">
           <SLASection
             v-if="doc.sla_status"
@@ -177,6 +189,7 @@ const errorTitle = ref('')
 const errorMessage = ref('')
 const showDeleteLinkedDocModal = ref(false)
 const applicantActionLoading = ref(false)
+const applicantNotice = ref('')
 const applicantState = ref({
   student_applicant: '',
   exists: false,
@@ -202,16 +215,6 @@ const applicantButtonLabel = computed(() =>
 onMounted(async () => {
   if (document.doc) await triggerOnRender()
 })
-
-watch(
-  () => doc.value.name,
-  (name) => {
-    if (name) {
-      refreshApplicantStatus()
-    }
-  },
-  { immediate: true },
-)
 
 watch(error, (err) => {
   if (err) {
@@ -382,25 +385,6 @@ function deleteLead() {
   showDeleteLinkedDocModal.value = true
 }
 
-async function refreshApplicantStatus() {
-  const leadName = doc.value.name || props.leadId
-  if (!leadName) return
-
-  let result = await call(
-    'crm.fcrm.doctype.crm_lead.crm_lead.get_student_applicant_status',
-    {
-      lead: leadName,
-    },
-  ).catch(() => null)
-
-  if (!result) return
-
-  applicantState.value = result
-  if (result.student_applicant) {
-    document.doc.custom_student_applicant = result.student_applicant
-  }
-}
-
 function openStudentApplicant(name) {
   if (!name) return
   window.location.assign(`/app/student-applicant/${encodeURIComponent(name)}`)
@@ -412,6 +396,7 @@ async function handleApplicantAction() {
     return
   }
 
+  applicantNotice.value = ''
   applicantActionLoading.value = true
   let result = await call('crm.fcrm.doctype.crm_lead.crm_lead.convert_to_applicant', {
     lead: props.leadId,
@@ -423,12 +408,18 @@ async function handleApplicantAction() {
 
   if (!result) return
 
-  applicantState.value = result
-  if (result.student_applicant) {
-    document.doc.custom_student_applicant = result.student_applicant
+  const applicantResult =
+    result.message && typeof result.message === 'object' ? result.message : result
+  applicantState.value = applicantResult
+  if (applicantResult.student_applicant) {
+    document.doc.custom_student_applicant = applicantResult.student_applicant
   }
   await document.reload?.()
-  toast.success(__(result.message || 'Applicant linked successfully'))
+  if (applicantResult.created === false) {
+    applicantNotice.value = __(applicantResult.message || 'Already have registered')
+  } else {
+    toast.success(__(applicantResult.message || 'Applicant linked successfully'))
+  }
 }
 
 function statusLabel(status) {

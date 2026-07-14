@@ -593,8 +593,14 @@ def convert_to_applicant(lead: str) -> dict:
 
 	lead_doc = frappe.get_cached_doc("CRM Lead", lead)
 	selected_program = (getattr(lead_doc, "custom_system_programs", None) or "").strip()
+	email = (getattr(lead_doc, "email", None) or "").strip()
+	phone = (getattr(lead_doc, "mobile_no", None) or getattr(lead_doc, "phone", None) or "").strip()
 	if not selected_program:
 		frappe.throw(_("Please select the program"))
+	if not email:
+		frappe.throw(_("Please enter the email"))
+	if not phone:
+		frappe.throw(_("Please enter the phone"))
 
 	existing_applicant = _find_student_applicant_for_lead(lead_doc)
 	if existing_applicant:
@@ -610,9 +616,11 @@ def convert_to_applicant(lead: str) -> dict:
 	applicant = frappe.new_doc("Student Applicant")
 	applicant.first_name = lead_doc.first_name
 	applicant.last_name = lead_doc.last_name
-	applicant.student_email_id = lead_doc.email
-	applicant.student_mobile_number = lead_doc.mobile_no or lead_doc.phone
+	applicant.student_email_id = email
+	applicant.student_mobile_number = phone
 	applicant.program = selected_program
+	applicant.gender=lead_doc.gender
+	applicant.academic_year="2026-2027"
 	applicant.academic_term = "2026-2027 (Fall 2026)"
 	applicant.flags.ignore_mandatory = True
 	applicant.insert(ignore_permissions=True)
