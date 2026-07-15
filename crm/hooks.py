@@ -267,6 +267,17 @@ before_tests = "crm.tests.before_tests"
 
 ignore_links_on_delete = ["Failed Lead Sync Log"]
 
+fixtures=[{
+    
+	"dt":"Custom Field",
+	"filters":[
+		["name", "in", [
+            "CRM Lead-custom_student_applicant",
+            "CRM Lead-custom_system_programs",
+            "CRM Lead-custom_program"
+		]]]
+}]
+
 # Request Events
 # ----------------
 # before_request = ["crm.utils.before_request"]

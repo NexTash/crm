@@ -102,7 +102,7 @@
         </template>
       </SidebarLink>
       <SidebarLink
-        v-if="isOnboardingStepsCompleted"
+        v-if="showHelpLink && isOnboardingStepsCompleted"
         :label="__('Help')"
         :isCollapsed="isSidebarCollapsed"
         @click="
@@ -218,6 +218,8 @@ const isSidebarCollapsed = useStorage('isSidebarCollapsed', false)
 const isFCSite = ref(window.is_fc_site)
 const isDemoSite = ref(window.is_demo_site)
 const showSalesHierarchyBanner = ref(!!window.show_sales_hierarchy_banner)
+const hiddenSidebarLinks = ['Deals', 'Organizations', 'Call Logs']
+const showHelpLink = false
 
 const links = [
   {
@@ -274,6 +276,9 @@ const allViews = computed(() => {
       hideLabel: true,
       opened: true,
       views: links.filter((link) => {
+        if (hiddenSidebarLinks.includes(link.label)) {
+          return false
+        }
         if (link.condition) {
           return link.condition()
         }
@@ -553,7 +558,7 @@ onMounted(async () => {
   setUp(filteredSteps)
 })
 
-// help center
+// Help code intentionally kept; toggle `showHelpLink` above if it needs to be shown again.
 const articles = ref([
   {
     title: __('Introduction'),

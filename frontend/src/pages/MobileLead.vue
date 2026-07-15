@@ -51,9 +51,10 @@
         :actions="document.actions"
       />
       <Button
-        :label="__('Convert')"
+        :label="applicantButtonLabel"
         variant="solid"
-        @click="showConvertToDealModal = true"
+        :loading="applicantActionLoading"
+        @click="handleApplicantAction"
       />
     </div>
   </div>
@@ -65,6 +66,18 @@
       class="flex flex-1 overflow-auto flex-col [&_[role='tab']]:px-0 [&_[role='tab']]:shrink-0 [&_[role='tablist']]:px-3 [&_[role='tablist']]:min-h-[45px] [&_[role='tablist']]:gap-7.5 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
     >
       <template #tab-panel="{ tab }">
+        <div
+          v-if="applicantNotice"
+          class="mx-3 mt-3 flex items-center justify-between gap-3 rounded border border-outline-gray-2 bg-surface-gray-1 px-4 py-2.5 text-base text-ink-gray-8"
+        >
+          <span>{{ applicantNotice }}</span>
+          <Button
+            variant="ghost"
+            icon="lucide-x"
+            :tooltip="__('Close')"
+            @click="applicantNotice = ''"
+          />
+        </div>
         <div v-if="tab.name == 'Details'">
           <SLASection
             v-if="doc.sla_status"
@@ -102,11 +115,6 @@
     v-else-if="errorTitle"
     :errorTitle="errorTitle"
     :errorMessage="errorMessage"
-  />
-  <ConvertToDealModal
-    v-if="showConvertToDealModal"
-    v-model="showConvertToDealModal"
-    :lead="doc"
   />
   <DeleteLinkedDocModal
     v-if="showDeleteLinkedDocModal"
@@ -164,7 +172,6 @@ import {
 } from 'frappe-ui'
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import ConvertToDealModal from '@/components/Modals/ConvertToDealModal.vue'
 
 const { brand } = getSettings()
 const { $dialog, $socket } = globalStore()
@@ -181,6 +188,12 @@ const props = defineProps({
 const errorTitle = ref('')
 const errorMessage = ref('')
 const showDeleteLinkedDocModal = ref(false)
+const applicantActionLoading = ref(false)
+const applicantNotice = ref('')
+const applicantState = ref({
+  student_applicant: '',
+  exists: false,
+})
 
 const {
   triggerOnChange,
@@ -192,6 +205,12 @@ const {
 } = useDocument('CRM Lead', props.leadId)
 
 const doc = computed(() => document.doc || {})
+const applicantName = computed(
+  () => applicantState.value.student_applicant || doc.value.custom_student_applicant,
+)
+const applicantButtonLabel = computed(() =>
+  applicantName.value ? __('View Application') : __('Convert to Applicant'),
+)
 
 onMounted(async () => {
   if (document.doc) await triggerOnRender()
@@ -366,8 +385,42 @@ function deleteLead() {
   showDeleteLinkedDocModal.value = true
 }
 
-// Convert to Deal
-const showConvertToDealModal = ref(false)
+function openStudentApplicant(name) {
+  if (!name) return
+  window.location.assign(`/app/student-applicant/${encodeURIComponent(name)}`)
+}
+
+async function handleApplicantAction() {
+  if (applicantName.value) {
+    openStudentApplicant(applicantName.value)
+    return
+  }
+
+  applicantNotice.value = ''
+  applicantActionLoading.value = true
+  let result = await call('crm.fcrm.doctype.crm_lead.crm_lead.convert_to_applicant', {
+    lead: props.leadId,
+  }).catch((err) => {
+    toast.error(err.messages?.[0] || __('Error while converting to applicant'))
+    return null
+  })
+  applicantActionLoading.value = false
+
+  if (!result) return
+
+  const applicantResult =
+    result.message && typeof result.message === 'object' ? result.message : result
+  applicantState.value = applicantResult
+  if (applicantResult.student_applicant) {
+    document.doc.custom_student_applicant = applicantResult.student_applicant
+  }
+  await document.reload?.()
+  if (applicantResult.created === false) {
+    applicantNotice.value = __(applicantResult.message || 'Already have registered')
+  } else {
+    toast.success(__(applicantResult.message || 'Applicant linked successfully'))
+  }
+}
 
 function statusLabel(status) {
   if (isTranslatable('CRM Lead Status')) return __(status)
