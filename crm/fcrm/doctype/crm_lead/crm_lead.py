@@ -523,9 +523,6 @@ def _normalize_phone(value: str | None) -> str:
 
 
 def _set_student_applicant_link(lead: Document, applicant_name: str) -> None:
-	if not applicant_name or not frappe.get_meta("CRM Lead").has_field("custom_student_applicant"):
-		return
-
 	if lead.get("custom_student_applicant") == applicant_name:
 		return
 
@@ -541,28 +538,40 @@ def _find_student_applicant_for_lead(lead: Document) -> str | None:
 	if linked_applicant and frappe.db.exists("Student Applicant", linked_applicant):
 		return linked_applicant
 
-	email = _normalize_email(lead.email)
-	mobile_no = _normalize_phone(lead.mobile_no)
-	phone = _normalize_phone(lead.phone)
+	email = lead.email
 
-	candidates = frappe.db.get_all(
-		"Student Applicant",
-		fields=["name", "student_email_id", "student_mobile_number", "custom_alternate_phone"],
+	if not email or not frappe.db.exists("Student Applicant", {"student_email_id": email}):
+		return None
+
+	candidates = frappe.db.get_all("Student Applicant", filters={"student_email_id": email})
+
+	return candidates[0].get("name") if candidates else None
+
+
+def _get_admission_campus(lead: Document) -> str:
+	return "Lahore Campus"
+
+
+def _get_lead_full_name(lead: Document) -> str:
+	full_name = " ".join(
+		part
+		for part in [
+			getattr(lead, "first_name", None),
+			getattr(lead, "middle_name", None),
+			getattr(lead, "last_name", None),
+		]
+		if part
 	)
+	return full_name or lead.get("lead_name") or lead.get("title") or lead.get("email")
 
-	for applicant in candidates:
-		if email and _normalize_email(applicant.get("student_email_id")) == email:
-			return applicant.get("name")
 
-	for applicant in candidates:
-		applicant_mobile = _normalize_phone(applicant.get("student_mobile_number"))
-		applicant_alternate = _normalize_phone(applicant.get("custom_alternate_phone"))
-		if mobile_no and mobile_no in {applicant_mobile, applicant_alternate}:
-			return applicant.get("name")
-		if phone and phone in {applicant_mobile, applicant_alternate}:
-			return applicant.get("name")
-
-	return None
+def _get_registered_applicant_name(registration_result: dict) -> str | None:
+	application = registration_result.get("application") or {}
+	return (
+		registration_result.get("active_application_name")
+		or application.get("name")
+		or registration_result.get("student_applicant")
+	)
 
 
 @frappe.whitelist()
@@ -585,16 +594,11 @@ def get_student_applicant_status(lead: str) -> dict:
 
 @frappe.whitelist()
 def convert_to_applicant(lead: str) -> dict:
-	if not frappe.has_permission("CRM Lead", "write", lead):
-		frappe.throw(_("Not allowed to convert Lead to Applicant"), frappe.PermissionError)
-
-	if not frappe.db.exists("DocType", "Student Applicant"):
-		frappe.throw(_("Student Applicant DocType is not available."))
-
 	lead_doc = frappe.get_cached_doc("CRM Lead", lead)
 	selected_program = (getattr(lead_doc, "custom_system_programs", None) or "").strip()
 	email = (getattr(lead_doc, "email", None) or "").strip()
 	phone = (getattr(lead_doc, "mobile_no", None) or getattr(lead_doc, "phone", None) or "").strip()
+	
 	if not selected_program:
 		frappe.throw(_("Please select the program"))
 	if not email:
@@ -613,22 +617,26 @@ def convert_to_applicant(lead: str) -> dict:
 			"label": "View Application",
 		}
 
-	applicant = frappe.new_doc("Student Applicant")
-	applicant.first_name = lead_doc.first_name
-	applicant.last_name = lead_doc.last_name
-	applicant.student_email_id = email
-	applicant.student_mobile_number = phone
-	applicant.program = selected_program
-	applicant.gender=lead_doc.gender
-	applicant.academic_year="2026-2027"
-	applicant.academic_term = "2026-2027 (Fall 2026)"
-	applicant.flags.ignore_mandatory = True
-	applicant.insert(ignore_permissions=True)
+	from admissions.api.admission import register_admission_user_from_full_name
 
-	_set_student_applicant_link(lead_doc, applicant.name)
+	registration_result = register_admission_user_from_full_name(
+		full_name=_get_lead_full_name(lead_doc),
+		email=email,
+		password=frappe.generate_hash(length=12),
+		mobile_number=phone,
+		program=selected_program,
+		campus=_get_admission_campus(lead_doc),
+		crm_flag=True
+	)
+
+	applicant_name = _get_registered_applicant_name(registration_result)
+	if not applicant_name:
+		frappe.throw(_("Applicant was created but could not be linked. Please refresh and try again."))
+
+	_set_student_applicant_link(lead_doc, applicant_name)
 
 	return {
-		"student_applicant": applicant.name,
+		"student_applicant": applicant_name,
 		"created": True,
 		"exists": True,
 		"message": _("Applicant created successfully"),
