@@ -617,6 +617,45 @@ def convert_to_applicant(lead: str) -> dict:
 			"label": "View Application",
 		}
 
+	if frappe.db.exists("User", email):
+		from admissions.api.admission import (
+			_get_or_create_student_applicant,
+			_normalize_program_level,
+			_normalize_student_payload,
+		)
+
+		payload = _normalize_student_payload(
+			{
+				"full_name": _get_lead_full_name(lead_doc),
+				"student_email_id": email,
+				"student_mobile_number": phone,
+				"program": selected_program,
+				"program_level": _normalize_program_level("", selected_program),
+				"campus": _get_admission_campus(lead_doc),
+				"country": "Pakistan",
+				"nationality": "Pakistan",
+				"hu_wizard_step": 1,
+				"hu_application_submitted": False,
+				"qualifications": [],
+			}
+		)
+
+		student_applicant, flag = _get_or_create_student_applicant(
+			payload,
+		)
+
+		_set_student_applicant_link(
+			lead_doc,
+			student_applicant.name,
+		)
+
+		return {
+			"student_applicant": student_applicant.name,
+			"created": False,
+			"exists": True,
+			"message": _("Already have registered"),
+			"label": "View Application",
+		}
 	from admissions.api.admission import register_admission_user_from_full_name
 
 	registration_result = register_admission_user_from_full_name(
