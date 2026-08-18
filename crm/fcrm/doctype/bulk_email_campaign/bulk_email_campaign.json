@@ -1,0 +1,240 @@
+{
+ "actions": [],
+ "creation": "2026-07-30 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "campaign_title",
+  "status",
+  "reference_doctype",
+  "email_field",
+  "filter_builder",
+  "filters_json",
+  "sender_account",
+  "daily_sending_limit",
+  "subject",
+  "content_type",
+  "rich_text_content",
+  "html_content",
+  "markdown_content",
+  "email_reply_help",
+  "statistics_tab",
+  "statistics_section",
+  "total_matching_records",
+  "total_valid_recipients",
+  "total_invalid_emails",
+  "total_duplicate_emails",
+  "total_queued",
+  "total_remaining",
+  "column_break_lpbj",
+  "sent_today",
+  "total_sent",
+  "total_failed",
+  "last_run_at",
+  "completed_at"
+ ],
+ "fields": [
+  {
+   "fieldname": "campaign_title",
+   "fieldtype": "Data",
+   "label": "Campaign Title",
+   "reqd": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nRunning\nPaused\nCompleted\nFailed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Reference DocType",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "fieldname": "email_field",
+   "fieldtype": "Select",
+   "label": "Email Field",
+   "reqd": 1
+  },
+  {
+   "fieldname": "filter_builder",
+   "fieldtype": "HTML",
+   "label": "Filters"
+  },
+  {
+   "fieldname": "filters_json",
+   "fieldtype": "Code",
+   "hidden": 1,
+   "label": "Filters JSON",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "sender_account",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Sender Account",
+   "options": "Email Account",
+   "reqd": 1
+  },
+  {
+   "default": "2000",
+   "fieldname": "daily_sending_limit",
+   "fieldtype": "Int",
+   "label": "Daily Sending Limit",
+   "reqd": 1
+  },
+  {
+   "fieldname": "subject",
+   "fieldtype": "Data",
+   "label": "Subject",
+   "reqd": 1
+  },
+  {
+   "default": "HTML",
+   "fieldname": "content_type",
+   "fieldtype": "Select",
+   "label": "Content Type",
+   "options": "Rich Text\nHTML\nMarkdown",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.content_type == 'Rich Text'",
+   "fieldname": "rich_text_content",
+   "fieldtype": "Text Editor",
+   "label": "Rich Text Content"
+  },
+  {
+   "depends_on": "eval:doc.content_type == 'HTML'",
+   "fieldname": "html_content",
+   "fieldtype": "Code",
+   "label": "HTML Content",
+   "options": "HTML"
+  },
+  {
+   "depends_on": "eval:doc.content_type == 'Markdown'",
+   "fieldname": "markdown_content",
+   "fieldtype": "Markdown Editor",
+   "label": "Markdown Content"
+  },
+  {
+   "fieldname": "email_reply_help",
+   "fieldtype": "HTML",
+   "label": "Email Reply Help",
+   "options": "<h4>Email Reply Example</h4>\n\n<pre>Order Overdue\n\nTransaction {{ name }} has exceeded Due Date. Please take necessary action.\n\nDetails\n\n- Customer: {{ customer }}\n- Amount: {{ grand_total }}\n</pre>\n\n<h4>How to get fieldnames</h4>\n\n<p>The fieldnames you can use in your email template are the fields in the document from which you are sending the email. You can find out the fields of any documents via Setup &gt; Customize Form View and selecting the document type (e.g. Sales Invoice)</p>\n\n<h4>Templating</h4>\n\n<p>Templates are compiled using the Jinja Templating Language. To learn more about Jinja, <a class=\"strong\" href=\"http://jinja.pocoo.org/docs/dev/templates/\">read this documentation.</a></p>\n"
+  },
+  {
+   "fieldname": "statistics_tab",
+   "fieldtype": "Tab Break",
+   "label": "Statistics"
+  },
+  {
+   "fieldname": "statistics_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_matching_records",
+   "fieldtype": "Int",
+   "label": "Total Matching Records",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_valid_recipients",
+   "fieldtype": "Int",
+   "label": "Total Valid Recipients",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_invalid_emails",
+   "fieldtype": "Int",
+   "label": "Total Invalid Emails",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_duplicate_emails",
+   "fieldtype": "Int",
+   "label": "Total Duplicate Emails",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_queued",
+   "fieldtype": "Int",
+   "label": "Total Queued",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_remaining",
+   "fieldtype": "Int",
+   "label": "Total Remaining",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_lpbj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sent_today",
+   "fieldtype": "Int",
+   "label": "Sent Today",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_sent",
+   "fieldtype": "Int",
+   "label": "Total Sent",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_failed",
+   "fieldtype": "Int",
+   "label": "Total Failed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_run_at",
+   "fieldtype": "Datetime",
+   "label": "Last Run At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "completed_at",
+   "fieldtype": "Datetime",
+   "label": "Completed At",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-18 19:15:43.501261",
+ "modified_by": "Administrator",
+ "module": "FCRM",
+ "name": "Bulk Email Campaign",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "campaign_title",
+ "track_changes": 1
+}
